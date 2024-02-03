@@ -15,7 +15,7 @@ jobs:
     - uses: 2karis/github-action-ssh-docker-compose@master
       name: Docker-Compose Remote Deployment
       with:
-        ssh_host: "${{ secrets.SSH_HOST }}"
+        ssh_host: "${{ vars.SSH_HOST }}"
         ssh_private_key: "${{ secrets.SSH_PRIVATE_KEY }}"
         ssh_user: "${{ secrets.SSH_USER }}"
         docker_compose_prefix: SS_io
