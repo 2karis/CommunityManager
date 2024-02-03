@@ -14,7 +14,7 @@ jobs:
     - uses: 2karis/github-action-ssh-docker-compose@master
       name: Docker-Compose Remote Deployment
       with:
-        ssh_host: example.com
-        ssh_private_key: ${{ secrets.EXAMPLE_COM_SSH_PRIVATE_KEY }}
-        ssh_user: ${{ secrets.EXAMPLE_COM_SSH_USER }}
-        docker_compose_prefix: example_com
+        ssh_host: ${{ secrets.SSH_HOST }}
+        ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh_user: ${{ secrets.SSH_USER }}
+        docker_compose_prefix: siliconsavannah_io
