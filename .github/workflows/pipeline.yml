@@ -1,21 +1,21 @@
-name: Deploy
+# name: Deploy
 
-on:
-  push:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    environment: production
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     environment: production
 
-    steps:
-    - uses: actions/checkout@v3
+#     steps:
+#     - uses: actions/checkout@v3
 
-    - uses: 2karis/github-action-ssh-docker-compose@master
-      name: Docker-Compose Remote Deployment
-      with:
-        ssh_host: "${{ vars.SSH_HOST }}"
-        ssh_private_key: "${{ secrets.SSH_PRIVATE_KEY }}"
-        ssh_user: "${{ secrets.SSH_USER }}"
-        docker_compose_prefix: SS_io
+#     - uses: 2karis/github-action-ssh-docker-compose@master
+#       name: Docker-Compose Remote Deployment
+#       with:
+#         ssh_host: "${{ vars.SSH_HOST }}"
+#         ssh_private_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+#         ssh_user: "${{ secrets.SSH_USER }}"
+#         docker_compose_prefix: SS_io
