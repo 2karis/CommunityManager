@@ -1,19 +1,19 @@
 services:
-  # db:
-  #   image: mysql
-  #   restart: on-failure
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: password
-  #     MYSQL_DATABASE: mydb
-  #   networks:
-  #     - network
-  # backend:
-  #   restart: on-failure
-  #   build: ./backend
-  #   ports:
-  #    - '8080:8080'
-  #   networks:
-  #     - network
+  db:
+    image: mysql
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydb
+    networks:
+      - network
+  backend:
+    restart: on-failure
+    build: ./backend
+    ports:
+     - '8080:8080'
+    networks:
+      - network
   web:
     restart: on-failure
     build: 
