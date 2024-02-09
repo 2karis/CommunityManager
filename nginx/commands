@@ -9,15 +9,15 @@ sudo apt install nginx -y
 
 sudo snap install core; sudo snap refresh core
 
- sudo apt remove certbot
+sudo apt remove certbot
 
- sudo snap install --classic certbot
+sudo snap install --classic certbot
 
 #run certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 
 #certonly is if i just want the cert
-sudo certbot [certonly] --nginx
+sudo certbot --nginx -d siliconsavannah.io -d www.siliconsavannah.io 
 
 #somehow update nginx.conf with new cert
 
@@ -32,9 +32,8 @@ server{
 
     server_name  example.com;
 
-    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+/etc/letsencrypt/live/www.siliconsavannah.io/fullchain.pem
+#Key is saved at:         /etc/letsencrypt/live/www.siliconsavannah.io/privkey.pem
 
     location / {
         proxy_pass http://container:8080/;

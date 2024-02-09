@@ -1,19 +1,19 @@
 services:
-  db:
-    image: mysql
-    restart: on-failure
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: mydb
-    networks:
-      - network
-  backend:
-    restart: on-failure
-    build: ./backend
-    ports:
-     - '8080:8080'
-    networks:
-      - network
+  # db:
+  #   image: mysql
+  #   restart: on-failure
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: password
+  #     MYSQL_DATABASE: mydb
+  #   networks:
+  #     - network
+  # backend:
+  #   restart: on-failure
+  #   build: ./backend
+  #   ports:
+  #    - '8080:8080'
+  #   networks:
+  #     - network
   web:
     restart: on-failure
     build: 
@@ -23,23 +23,19 @@ services:
     networks:
       - network
   nginx:
-    restart: always
-    build: ./nginx
+    image: jonasal/nginx-certbot:5.0.0
+    restart: unless-stopped
+    # environment:
+    #   - CERTBOT_EMAIL
+    env_file:
+      - ./nginx/nginx-certbot.env
     ports:
-    - '80:80'
-    - '443:443'
+      - 80:80
+      - 443:443
     volumes:
-    - ./certbot/www/:/var/www/certbot/:ro
-    depends_on:
-    - web
+      -  ./nginx/user_conf.d:/etc/nginx/user_conf.d
     networks:
       - network
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-    networks:
-      - network
+
 networks:
   network : 
