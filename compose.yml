@@ -1,41 +1,41 @@
 services:
-  # db:
-  #   image: mysql
-  #   restart: on-failure
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: password
-  #     MYSQL_DATABASE: mydb
-  #   networks:
-  #     - network
-  # backend:
-  #   restart: on-failure
-  #   build: ./backend
-  #   ports:
-  #    - '8080:8080'
-  #   networks:
-  #     - network
-  # web:
-  #   restart: on-failure
-  #   build: 
-  #     context: web
-  #   ports:
-  #    - '4200:4200'
-  #   networks:
-  #     - network
-  nginx:
-    image: jonasal/nginx-certbot:5.0.0
-    restart: unless-stopped
-    # environment:
-    #   - CERTBOT_EMAIL
-    env_file:
-      - ./nginx/nginx-certbot.env
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      -  ./nginx/user_conf.d:/etc/nginx/user_conf.d
+  db:
+    image: mysql
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydb
     networks:
       - network
+  backend:
+    restart: on-failure
+    build: ./backend
+    ports:
+     - '8080:8080'
+    networks:
+      - network
+  web:
+    restart: on-failure
+    build: 
+      context: web
+    ports:
+     - '4200:4200'
+    networks:
+      - network
+  # nginx:
+  #   image: jonasal/nginx-certbot:5.0.0
+  #   restart: unless-stopped
+  #   # environment:
+  #   #   - CERTBOT_EMAIL
+  #   env_file:
+  #     - ./nginx/nginx-certbot.env
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #     -  ./nginx/user_conf.d:/etc/nginx/user_conf.d
+  #   networks:
+  #     - network
 
 networks:
   network : 
