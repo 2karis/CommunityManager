@@ -33,7 +33,5 @@ public @Data class User {
     private Timestamp updatedAt;
     @ManyToMany
     private HashSet<Task> tasks;
-    @ManyToOne
-    @JoinColumn(name="lease_id", nullable=false)
-    private Lease Lease;
+
 }
