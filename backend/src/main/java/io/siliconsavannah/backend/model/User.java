@@ -1,16 +1,25 @@
 package io.siliconsavannah.backend.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.HashSet;
 
+@Table(name="user")
 @Entity
 public @Data class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
     private String lastName;
@@ -19,8 +28,12 @@ public @Data class User {
     private String type;
     private String phone;
     @CreationTimestamp
-    private Date createdAt;
+    private Timestamp createdAt;
     @UpdateTimestamp
-    private Date updatedAt;
-
+    private Timestamp updatedAt;
+    @ManyToMany
+    private HashSet<Task> tasks;
+    @ManyToOne
+    @JoinColumn(name="lease_id", nullable=false)
+    private Lease Lease;
 }

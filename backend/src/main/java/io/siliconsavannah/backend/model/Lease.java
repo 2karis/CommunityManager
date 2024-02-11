@@ -7,11 +7,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 
+@Table(name="lease")
 @Entity
 public @Data class Lease {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Date termFrom;
     private Date termTo;
@@ -20,14 +23,14 @@ public @Data class Lease {
     private String status;
     private String file;
     @CreationTimestamp
-    private Date createdAt;
+    private Timestamp createdAt;
     @UpdateTimestamp
-    private Date updatedAt;
+    private Timestamp updatedAt;
     @ManyToOne
-    @JoinColumn(name="id", table = "property", nullable=false)
+    @JoinColumn(name="property_id", nullable=false)
     private Property property;
-    @OneToMany(mappedBy="income")
+    @OneToMany(mappedBy="id")
     private HashSet<Income> income;
-    @OneToMany(mappedBy="user")
+    @OneToMany
     private HashSet<User> users;
 }

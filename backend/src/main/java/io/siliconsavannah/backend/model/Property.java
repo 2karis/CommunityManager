@@ -1,28 +1,33 @@
 package io.siliconsavannah.backend.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 
+@Table(name="property")
 @Entity
 public @Data class Property {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String address;
     private String unit;
     @CreationTimestamp
-    private Date createdAt;
+    private Timestamp createdAt;
     @UpdateTimestamp
-    private Date updatedAt;
-    @OneToMany(mappedBy="lease")
+    private Timestamp updatedAt;
+    @OneToMany(mappedBy="id")
     private HashSet<Lease> lease;
-    @OneToMany(mappedBy="expense")
+    @OneToMany(mappedBy="id")
     private HashSet<Expense> expense;
 
 }
