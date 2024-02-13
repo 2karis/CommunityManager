@@ -21,7 +21,6 @@ public record LeaseDto(
     Timestamp updatedAt,
     Property property,
     HashSet<Income> income,
-
     HashSet<User> users
 ) {
 }
