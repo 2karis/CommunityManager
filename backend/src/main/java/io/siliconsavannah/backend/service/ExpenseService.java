@@ -29,17 +29,22 @@ public class ExpenseService {
     }
 
     public ExpenseDto updateExpense(ExpenseDto expenseDto){
-    	Expense expense = expenseRepo.findById(expenseDto.id()).get();
-        if (expenseDto.description()!= null) expense.setDescription(expenseDto.description());
-        if (expenseDto.amount()!= null)expense.setAmount(expenseDto.amount());
-        if (expenseDto.property()!= null)expense.setProperty(expenseDto.property());
-        return Optional.of(expenseRepo.save(expense)).stream().map(expenseMapper).findFirst().get();
+    	Optional<Expense> expense = expenseRepo.findById(expenseDto.id());
+        expense.ifPresent(
+                el ->{
+                    if (expenseDto.description()!= null) el.setDescription(expenseDto.description());
+                    if (expenseDto.amount()!= null)el.setAmount(expenseDto.amount());
+                    if (expenseDto.property()!= null)el.setProperty(expenseDto.property());
+                    expenseRepo.save(el);
+                }
+        );
+        return expenseDto;
     }
     public void deleteExpense(int id){
-        expenseRepo.deleteExpenseById(id);
+        expenseRepo.deleteById(id);
     }
 
     public ExpenseDto findExpenseById(int id){
-        return expenseRepo.findById(id).stream().map(expenseMapper).findAny().get();
+        return expenseRepo.findById(id).stream().map(expenseMapper).findAny().orElseThrow(RuntimeException::new);
     }
 }
