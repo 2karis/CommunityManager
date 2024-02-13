@@ -30,4 +30,72 @@ public @Data class Property {
     @OneToMany(mappedBy="id")
     private HashSet<Expense> expense;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public HashSet<Lease> getLease() {
+        return lease;
+    }
+
+    public void setLease(HashSet<Lease> lease) {
+        this.lease = lease;
+    }
+
+    public HashSet<Expense> getExpense() {
+        return expense;
+    }
+
+    public void setExpense(HashSet<Expense> expense) {
+        this.expense = expense;
+    }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", unit='" + unit + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", lease=" + lease +
+                ", expense=" + expense +
+                '}';
+    }
 }
