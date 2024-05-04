@@ -8,6 +8,7 @@ public record TaskDto(
         String type,
         String description,
         String image,
+        String status,
         Timestamp createdAt,
         Timestamp updatedAt
 ) {

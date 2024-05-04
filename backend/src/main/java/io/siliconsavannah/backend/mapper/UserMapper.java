@@ -1,26 +1,18 @@
 package io.siliconsavannah.backend.mapper;
 
+import io.siliconsavannah.backend.dto.LeaseDto;
 import io.siliconsavannah.backend.dto.UserDto;
+import io.siliconsavannah.backend.model.Lease;
 import io.siliconsavannah.backend.model.User;
+import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
-@Component
-public class UserMapper implements Function<User, UserDto> {
-    @Override
-    public UserDto apply(User user) {
-        return new UserDto(
-            user.getId(),
-            user.getFirstName(),
-            user.getLastName(),
-            user.getEmail(),
-            user.getPassword(),
-            user.getType(),
-            user.getPhone(),
-            user.getCreatedAt(),
-            user.getUpdatedAt(),
-            user.getTasks()
-        );
-    }
+
+@Mapper(componentModel = "spring", uses = {TaskMapper.class})
+public interface UserMapper {
+    UserDto entityToDto(User entity);
+    User dtoToEntity(UserDto dto);
+
 }

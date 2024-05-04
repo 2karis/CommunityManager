@@ -2,22 +2,21 @@ package io.siliconsavannah.backend.mapper;
 
 import io.siliconsavannah.backend.dto.ExpenseDto;
 import io.siliconsavannah.backend.model.Expense;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
+@Mapper (componentModel = "spring", uses = {PropertyMapper.class})
+public interface ExpenseMapper  {
+    ExpenseMapper mapper = Mappers.getMapper(ExpenseMapper.class);
+    Expense mapDtoToEntity(ExpenseDto source);
+    ExpenseDto mapEntityToDto(Expense destination);
 
-import java.util.function.Function;
-
-@Component
-public class ExpenseMapper implements Function<Expense, ExpenseDto> {
-    @Override
-    public ExpenseDto apply(Expense expense) {
-        return new ExpenseDto(
-                expense.getId(),
-                expense.getDescription(),
-                expense.getAmount(),
-                expense.getCreatedAt(),
-                expense.getUpdatedAt(),
-                expense.getProperty()
-        );
+    default Expense dtoToEntity(ExpenseDto dto) {
+        return mapDtoToEntity(dto);
+    }
+    default ExpenseDto entityToDto(Expense entity) {
+        return mapEntityToDto(entity);
     }
 }

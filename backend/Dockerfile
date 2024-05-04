@@ -8,7 +8,10 @@ RUN mvn dependency:go-offline
 
 COPY src /app/src
 
-RUN mvn install -Dskiptests
+RUN rm /app/src/main/resources/application.properties
+
+COPY config/application.properties /app/src/main/resources
+
+RUN mvn install -DskipTests
 
 CMD ["mvn", "spring-boot:run"]
-

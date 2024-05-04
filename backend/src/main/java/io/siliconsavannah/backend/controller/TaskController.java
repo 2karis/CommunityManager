@@ -1,45 +1,53 @@
 package io.siliconsavannah.backend.controller;
 
 import io.siliconsavannah.backend.dto.TaskDto;
+import io.siliconsavannah.backend.dto.TaskDto;
 import io.siliconsavannah.backend.model.Task;
 import io.siliconsavannah.backend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins ={"http://localhost:4200", "http://localhost:80"})
+@CrossOrigin
 @RequestMapping("/task")
 public class TaskController {
     @Autowired
     public TaskService taskService;
 
     @GetMapping("/readall")
-    public ResponseEntity<List<TaskDto>> getAllTasks(){
-        return new ResponseEntity<>(taskService.readAllTasks(), HttpStatus.OK);
+    public Flux<TaskDto> getAllTasks(){
+        return taskService.readAllTasks();
     }
 
     @GetMapping("/read/{id}")
-    public ResponseEntity<TaskDto> getTask(@PathVariable("id") int id){
-        return new ResponseEntity<>(taskService.findTaskById(id), HttpStatus.OK);
+    public Mono<ResponseEntity<TaskDto>> getTask(@PathVariable("id") int id){
+        return taskService.findTaskById(id)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Task> createTask(@RequestBody Task task){
-        return new ResponseEntity<>(taskService.createTask(task), HttpStatus.CREATED);
+    public Mono<ResponseEntity<TaskDto>> createTask(@RequestBody Mono<TaskDto> task){
+        return taskService.createTask(task)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
     @PutMapping("/update")
-    public ResponseEntity<TaskDto>updateTask(@RequestBody TaskDto task){
-        return new ResponseEntity<>(taskService.updateTask(task), HttpStatus.CREATED);
+    public Mono<ResponseEntity<TaskDto>> updateTask(@RequestBody Mono<TaskDto> task){
+        return taskService.updateTask(task)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteTask(@PathVariable("id") int id){
-        taskService.deleteTask(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public Mono<?> deleteTask(@PathVariable("id") int id){
+        return taskService.deleteTask(id);
     }
 }

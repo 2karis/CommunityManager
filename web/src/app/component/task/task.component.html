@@ -1,0 +1,236 @@
+<h2 class="h2 pt-3 pb-2">Tasks</h2>
+<div class="btn-toolbar mb-2 mb-md-0">
+  <div class="btn-group me-2">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="onOpenModal()" type="button" data-bs-toggle="modal" data-bs-target="#createTaskModal" >Add Task</button>
+  </div>
+  <form class="form-inline my-2 my-lg-0">
+    <input type="search" (ngModelChange)="searchTask(key.value)" #key="ngModel" ngModel name="key" id="searchTask" class="form-control mr-sm-2" placeholder="Search" aria-label="Search">
+  </form>
+</div>
+<br>
+<div class="table-responsive">
+  <table class="table table-md">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">title</th>
+        <th scope="col">description</th>
+        <th scope="col">type</th>
+        <th scope="col">status</th>
+        <th scope="col">Created</th>
+        <th scope="col">Updated</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let task of tasks">
+      <tr>
+        <td>{{task.id}}</td>
+        <td>{{task.title}}</td>
+        <td>{{task.description}}</td>
+        <td>{{task.type}}</td>
+        <td>{{task.status}}</td>
+        <td>{{task.createdAt}}</td>
+        <td>{{task.updatedAt}}</td>
+        <td>
+          <div class="float-right btn-group btn-group-sm center">
+            <a (click)="onOpenModal(task)" type="button" data-bs-toggle="modal"  data-bs-target="#readTaskModal"><i class="fa fa-eye float-centered">view</i> </a>
+            <a (click)="onOpenModal(task)" type="button" data-bs-toggle="modal" data-bs-target="#updateTaskModal"><i class="fa fa-pencil float-centered">update</i></a>
+            <a (click)="onOpenModal(task)" type="button" data-bs-toggle="modal" data-bs-target="#deleteTaskModal"><i class="fa fa-times float-centered">delete</i></a>
+        </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="tasks?.length==0">
+  <div class="alert alert-secondary" role="alert">
+    No tasks 
+  </div>
+</div>
+<div class="container">
+  <div class="modal fade" id="createTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form #createForm="ngForm" (ngSubmit)="onCreateTask(createForm)">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create new Task</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="name" class="col-form-label">title:</label>
+              <input type="text" ngModel class="form-control" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+              <label for="email" class="col-form-label">description:</label>
+              <textarea type="text" ngModel class="form-control" id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="title" class="col-form-label">type:</label>
+              <select type="text" ngModel class="form-select" id="type" name="type" required>
+                <option value="service_request">Service Request</option>
+                <option value="lease_renewal">Lease Renewal</option>
+                <option value="eviction">Eviction</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="phone" class="col-form-label">image:</label>
+              <input class="form-control" type="file" id="image" name="image">
+
+            </div>
+            <div class="form-group">
+              <label for="imageUrl" class="col-form-label">status:</label>
+              <select type="text" ngModel class="form-select" id="status" name="status" required>
+                <option value="open">Open</option>
+                <option value="work_in_progress">Work in Progress</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="createClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" [disabled]="createForm.form.invalid" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="readTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Read Task</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="list-group-item bg-body-tertiary rounded-3 pt-3 pb-2">
+            <div class="row">
+                <div class="col-3">
+                    <h5 class="mb-0">Title</h5>
+                </div>
+                <div class="col-9">
+                    <p class="text mb-0">{{task?.title}}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-3">
+                    <h5 class="mb-0">Description</h5>
+                </div>
+                <div class="col-9">
+                    <p class="text mb-0">{{task?.description}}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-3">
+                    <h5 class="mb-0">Type</h5>
+                </div>
+                <div class="col-9">
+                    <p class="text mb-0">{{task?.type}}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-3">
+                  <h5 class="mb-0">Status</h5>
+              </div>
+              <div class="col-9">
+                  <p class="text mb-0">{{task?.status}}</p>
+              </div>
+          </div>
+          <hr>
+          <div *ngIf="task?.image!= null" class="row">
+            <div class="col-3">
+                <h5 class="mb-0">image</h5>
+            </div>
+            <div class="col-9">
+              <img src="{{task?.image}}"  class="img-fluid rounded-circle w-60">
+            </div>
+        </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="updateTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form #updateForm="ngForm" (ngSubmit)="onUpdateTask(updateForm)">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Task</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="name" class="col-form-label">title:</label>
+              <input type="text" ngModel="{{task?.title}}" class="form-control" id="title" name="title" value="{{task?.title}}" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="description" class="col-form-label">description:</label>
+              <textarea type="text" ngModel="{{task?.description}}" class="form-control" id="description" name="description" value="{{task?.description}}"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="title" class="col-form-label">type:</label>
+              <select type="text" ngModel class="form-select" id="type" name="type" required>
+                <option value="service_request" selected>Service Request</option>
+                <option value="lease_renewal">Lease Renewal</option>
+                <option value="eviction">Eviction</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="image" class="col-form-label">image:</label>
+              <input type="file" ngModel="{{task?.image}}" class="form-control" id="imageUrl" name="imageUrl" value="{{task?.image}}">
+            </div>
+            <div class="form-group">
+              <label for="status" class="col-form-label">status:</label>
+              <select type="text" ngModel class="form-select" id="status" name="status" required>
+                <option value="open">Open</option>
+                <option value="work_in_progress">Work in Progress</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" ngModel="{{task?.id}}" class="form-control" id="id" name="id" value="{{task?.id}}" >
+          <input type="hidden" ngModel="{{task?.createdAt}}" class="form-control" id="createdAt" name="createdAt" value="{{task?.createdAt}}" >
+          <input type="hidden" ngModel="{{task?.updatedAt}}" class="form-control" id="updatedAt" name="updatedAt" value="{{task?.updatedAt}}" >
+
+          <button type="button" id="updateClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit"  class="btn btn-primary">Update</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="deleteTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Task </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete  <Strong>{{task?.title}}</Strong>?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="deleteClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" (click)="onDeleteTask(task.id)" class="btn btn-primary">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

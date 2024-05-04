@@ -16,6 +16,6 @@ public record IncomeDto(
         BigDecimal balance,
         Timestamp createdAt,
         Timestamp updatedAt,
-        Lease lease
+        LeaseDto lease
 ) {
 }
