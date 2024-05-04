@@ -11,8 +11,9 @@ public record UserDto(
         String lastName,
         String email,
         String password,
-        String type,
+        String role,
         String phone,
+        String imageUrl,
         Timestamp createdAt,
         Timestamp updatedAt,
         HashSet<Task>tasks

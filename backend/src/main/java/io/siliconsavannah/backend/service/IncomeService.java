@@ -7,8 +7,12 @@ import io.siliconsavannah.backend.repo.IncomeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,35 +24,53 @@ public class IncomeService {
     @Autowired
     private IncomeRepo incomeRepo;
 
-    public Income createIncome(Income income){
-        return incomeRepo.save(income);
+    public Mono<IncomeDto> createIncome(Mono<IncomeDto> incomeDto){
+        return incomeDto
+                .map(incomeMapper::dtoToEntity)
+                .map(incomeRepo::save)
+                .map(incomeMapper::entityToDto)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public List<IncomeDto> readAllIncomes(){
-        return incomeRepo.findAll().stream().map(incomeMapper).collect(Collectors.toList());
+    public Flux<IncomeDto> readAllIncomes(){
+        return Flux.fromStream(() -> incomeRepo.findAll().stream())
+                .map(incomeMapper::entityToDto)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public IncomeDto updateIncome(IncomeDto incomeDto){
-        Optional<Income> income = incomeRepo.findById(incomeDto.id());
-        income.ifPresent(
-                el ->{
-                    if (incomeDto.dueOn()!= null) el.setDueOn(incomeDto.dueOn());
-                    if (incomeDto.paidOn()!= null) el.setPaidOn(incomeDto.paidOn());
-                    if (incomeDto.status()!= null) el.setStatus(incomeDto.status());
-                    if (incomeDto.amount()!= null) el.setAmount(incomeDto.amount());
-                    if (incomeDto.lateFee()!= null) el.setLateFee(incomeDto.lateFee());
-                    if (incomeDto.paid()!= null) el.setPaid(incomeDto.paid());
-                    if (incomeDto.balance()!= null)el.setBalance(incomeDto.balance());
-                    incomeRepo.save(el);
-                }
-        );
-        return incomeDto;
+    public Mono<IncomeDto> updateIncome(Mono<IncomeDto> incomeDto){
+        return incomeDto
+                .flatMap(dto-> Mono.fromSupplier(()->incomeRepo.findById(dto.id()))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .map(entity->{
+                    if (dto.dueOn()!= null) entity.setDueOn(dto.dueOn());
+                    if (dto.paidOn()!= null) entity.setPaidOn(dto.paidOn());
+                    if (dto.status()!= null) entity.setStatus(dto.status());
+                    if (dto.amount()!= null) entity.setAmount(dto.amount());
+                    if (dto.lateFee()!= null) entity.setLateFee(dto.lateFee());
+                    if (dto.paid()!= null) entity.setPaid(dto.paid());
+                    if (dto.balance()!= null)entity.setBalance(dto.balance());
+                    return incomeRepo.save(entity);
+                        })
+                )
+                .filter(Objects::nonNull)
+                .map(incomeMapper::entityToDto)
+                .switchIfEmpty(Mono.error(Throwable::new))
+                .subscribeOn(Schedulers.boundedElastic());
+
     }
-    public void deleteIncome(int id){
-        incomeRepo.deleteById(id);
+    public Mono<Void> deleteIncome(int id){
+        return Mono.fromRunnable(()->{incomeRepo.deleteById(id);})
+                .then()
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public IncomeDto findIncomeById(int id){
-        return incomeRepo.findById(id).stream().map(incomeMapper).findAny().orElseThrow(RuntimeException::new);
+    public Mono<IncomeDto> findIncomeById(int id){
+        return Mono.fromSupplier(()->incomeRepo.findById(id))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(incomeMapper::entityToDto)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 }

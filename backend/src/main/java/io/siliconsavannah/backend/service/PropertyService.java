@@ -1,14 +1,21 @@
 package io.siliconsavannah.backend.service;
 
 import io.siliconsavannah.backend.dto.PropertyDto;
+import io.siliconsavannah.backend.dto.PropertyDto;
+import io.siliconsavannah.backend.dto.UserDto;
 import io.siliconsavannah.backend.mapper.PropertyMapper;
+import io.siliconsavannah.backend.model.Property;
 import io.siliconsavannah.backend.model.Property;
 import io.siliconsavannah.backend.repo.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -24,28 +31,52 @@ public class PropertyService {
         return propertyRepo.save(property);
     }
 
-    public List<PropertyDto> readAllPropertys(){
-        return propertyRepo.findAll().stream().map(propertyMapper).collect(Collectors.toList());
+
+    public Mono<PropertyDto> createProperty(Mono<PropertyDto> propertyDto){
+        return propertyDto
+                .map(propertyMapper::dtoToEntity)
+                .map(propertyRepo::save)
+                .map(propertyMapper::entityToDto)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public PropertyDto updateProperty(PropertyDto propertyDto){
-        Optional<Property> property = propertyRepo.findById(propertyDto.id());
-        property.ifPresent(
-                el ->{
-                    if (propertyDto.address()!= null) el.setAddress(propertyDto.address());
-                    if (propertyDto.unit()!= null) el.setUnit(propertyDto.unit());
-                    if (propertyDto.lease()!= null) el.setLease(propertyDto.lease());
-                    if (propertyDto.expense()!= null) el.setExpense(propertyDto.expense());
-                    propertyRepo.save(el);
-                }
-        );
-        return propertyDto;
-    }
-    public void deleteProperty(int id){
-        propertyRepo.deleteById(id);
+    public Flux<PropertyDto> readAllPropertys(){
+        return Flux.fromStream(() -> propertyRepo.findAll().stream())
+                .map(propertyMapper::entityToDto)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public PropertyDto findPropertyById(int id){
-        return propertyRepo.findById(id).stream().map(propertyMapper).findAny().orElseThrow(RuntimeException::new);
+    public Mono<PropertyDto> updateProperty(Mono<PropertyDto> propertyDto){
+
+        return propertyDto
+                .flatMap(dto-> Mono.fromSupplier(()->propertyRepo.findById(dto.id()))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .map(entity->{
+                            if (dto.address()!= null) entity.setAddress(dto.address());
+                            if (dto.unit()!= null) entity.setUnit(dto.unit());
+                            if (dto.lease()!= null) entity.setLease(dto.lease());
+                            if (dto.expense()!= null) entity.setExpense(dto.expense());
+                            return propertyRepo.save(entity);
+                        })
+                )
+                .filter(Objects::nonNull)
+                .map(propertyMapper::entityToDto)
+                .switchIfEmpty(Mono.error(Throwable::new))
+                .subscribeOn(Schedulers.boundedElastic());
+    }
+
+    public Mono<Void> deleteProperty(int id){
+        return Mono.fromRunnable(()->{propertyRepo.deleteById(id);})
+                .then()
+                .subscribeOn(Schedulers.boundedElastic());
+    }
+
+    public Mono<PropertyDto> findPropertyById(int id){
+        return Mono.fromSupplier(()->propertyRepo.findById(id))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(propertyMapper::entityToDto)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 }

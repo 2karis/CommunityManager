@@ -10,4 +10,8 @@ RUN npm ci
 
 COPY . .
 
+RUN rm /web/src/environments/environment.development.ts
+
+COPY config/environment.development.ts /web/src/environments
+
 CMD ["npm", "start"]

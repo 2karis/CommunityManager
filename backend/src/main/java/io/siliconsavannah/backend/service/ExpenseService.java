@@ -7,44 +7,63 @@ import io.siliconsavannah.backend.repo.ExpenseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
-import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class ExpenseService {
     @Autowired
-    private ExpenseMapper expenseMapper;
+    public ExpenseMapper expenseMapper;
     @Autowired
     private ExpenseRepo expenseRepo;
 
-    public Expense createExpense(Expense expense){
-        return expenseRepo.save(expense);
+    public Mono<ExpenseDto> createExpense(Mono<ExpenseDto> expenseDto){
+        return expenseDto
+                .map(expenseMapper::dtoToEntity)
+                .map(expenseRepo::save)
+                .map(expenseMapper::entityToDto)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public List<ExpenseDto> readAllExpenses(){
-        return expenseRepo.findAll().stream().map(expenseMapper).collect(Collectors.toList());
+    public Flux<ExpenseDto> readAllExpenses() {
+        return Flux.fromStream(() -> expenseRepo.findAll().stream())
+                .map(expenseMapper::entityToDto)
+                .subscribeOn(Schedulers.boundedElastic());
+
+    }
+        public Mono<ExpenseDto> updateExpense(Mono<ExpenseDto> expenseDto){
+        return expenseDto
+                .flatMap(dto-> Mono.fromSupplier(()->expenseRepo.findById(dto.id()))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .map(entity->{
+                            if (dto.description()!= null) entity.setDescription(dto.description());
+                            if (dto.amount()!= null)entity.setAmount(dto.amount());
+                            if (dto.property()!= null)entity.setProperty(dto.property());
+                            return expenseRepo.save(entity);
+                        })
+                )
+                .filter(Objects::nonNull)
+                    .map(expenseMapper::entityToDto)
+                    .switchIfEmpty(Mono.error(Throwable::new))
+                    .subscribeOn(Schedulers.boundedElastic());
+    }
+    public Mono<Void> deleteExpense(int id){
+        return Mono.fromRunnable(()->{expenseRepo.deleteById(id);})
+                .then()
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public ExpenseDto updateExpense(ExpenseDto expenseDto){
-    	Optional<Expense> expense = expenseRepo.findById(expenseDto.id());
-        expense.ifPresent(
-                el ->{
-                    if (expenseDto.description()!= null) el.setDescription(expenseDto.description());
-                    if (expenseDto.amount()!= null)el.setAmount(expenseDto.amount());
-                    if (expenseDto.property()!= null)el.setProperty(expenseDto.property());
-                    expenseRepo.save(el);
-                }
-        );
-        return expenseDto;
-    }
-    public void deleteExpense(int id){
-        expenseRepo.deleteById(id);
-    }
-
-    public ExpenseDto findExpenseById(int id){
-        return expenseRepo.findById(id).stream().map(expenseMapper).findAny().orElseThrow(RuntimeException::new);
+    public Mono<ExpenseDto> findExpenseById(int id){
+        return Mono.fromSupplier(()->expenseRepo.findById(id))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(expenseMapper::entityToDto)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 }
