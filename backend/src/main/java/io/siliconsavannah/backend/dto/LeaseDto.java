@@ -1,5 +1,6 @@
 package io.siliconsavannah.backend.dto;
 
+import io.siliconsavannah.backend.model.Document;
 import io.siliconsavannah.backend.model.Income;
 import io.siliconsavannah.backend.model.Property;
 import io.siliconsavannah.backend.model.User;
@@ -24,5 +25,6 @@ public record LeaseDto(
     Property property,
     HashSet<Income> income,
     HashSet<User> users
+    //HashSet<DocumentDto> documents
 ) {
 }
