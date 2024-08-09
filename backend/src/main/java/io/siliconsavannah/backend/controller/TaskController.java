@@ -1,22 +1,16 @@
 package io.siliconsavannah.backend.controller;
 
 import io.siliconsavannah.backend.dto.TaskDto;
-import io.siliconsavannah.backend.dto.TaskDto;
-import io.siliconsavannah.backend.dto.TaskDto;
-import io.siliconsavannah.backend.model.Task;
 import io.siliconsavannah.backend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/task")
+@RequestMapping("/api/task")
 public class TaskController {
     @Autowired
     public TaskService taskService;

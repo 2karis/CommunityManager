@@ -1,21 +1,14 @@
 package io.siliconsavannah.backend.service;
 
 import io.siliconsavannah.backend.dto.ExpenseDto;
-import io.siliconsavannah.backend.dto.ExpenseDto;
 import io.siliconsavannah.backend.mapper.ExpenseMapper;
-import io.siliconsavannah.backend.model.Expense;
 import io.siliconsavannah.backend.model.Expense;
 import io.siliconsavannah.backend.repo.ExpenseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

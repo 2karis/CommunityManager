@@ -1,22 +1,17 @@
 package io.siliconsavannah.backend.controller;
 
 import io.siliconsavannah.backend.dto.ExpenseDto;
-import io.siliconsavannah.backend.dto.ExpenseDto;
-import io.siliconsavannah.backend.mapper.ExpenseMapper;
-import io.siliconsavannah.backend.model.Expense;
 import io.siliconsavannah.backend.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/expense")
+@RequestMapping("/api/expense")
 public class ExpenseController {
     @Autowired
     public ExpenseService expenseService;
