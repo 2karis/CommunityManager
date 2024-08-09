@@ -19,11 +19,12 @@ export class PropertyService {
   public getProperty(id : number):Observable<Property>{
     return this.http.get<Property>(`${this.appServerUrl}/property/read/${id}`)
   }
-  public createProperty(empolyee : Property):Observable<Property>{
-    return this.http.post<Property>(`${this.appServerUrl}/property/create`, empolyee)
+  public createProperty(data : Property):Observable<Property>{
+    console.log(data);
+    return this.http.post<Property>(`${this.appServerUrl}/property/create`, data)
   }
-  public updateProperty(empolyee : Property):Observable<Property>{
-    return this.http.put<Property>(`${this.appServerUrl}/property/update`, empolyee)
+  public updateProperty(data : Property):Observable<Property>{
+    return this.http.put<Property>(`${this.appServerUrl}/property/update`, data)
   }
   public deleteProperty(id : number):Observable<void>{
     return this.http.delete<void>(`${this.appServerUrl}/property/delete/${id}`)

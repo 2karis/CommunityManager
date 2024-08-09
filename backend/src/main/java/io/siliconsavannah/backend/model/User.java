@@ -28,6 +28,8 @@ public @Data class User {
     private Timestamp updatedAt;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Task> tasks;
+    @OneToMany
+    private Set<Role> roles;
 
 
 }

@@ -2,6 +2,7 @@ package io.siliconsavannah.backend.controller;
 
 import io.siliconsavannah.backend.dto.TaskDto;
 import io.siliconsavannah.backend.dto.TaskDto;
+import io.siliconsavannah.backend.dto.TaskDto;
 import io.siliconsavannah.backend.model.Task;
 import io.siliconsavannah.backend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,33 +22,36 @@ public class TaskController {
     public TaskService taskService;
 
     @GetMapping("/readall")
-    public Flux<TaskDto> getAllTasks(){
-        return taskService.readAllTasks();
+    public ResponseEntity<List<TaskDto>> getAllTasks(){
+        return new ResponseEntity<>(taskService.readAllTasks(), HttpStatus.OK);
     }
 
     @GetMapping("/read/{id}")
-    public Mono<ResponseEntity<TaskDto>> getTask(@PathVariable("id") int id){
-        return taskService.findTaskById(id)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<TaskDto> getTask(@PathVariable("id") int id){
+        try {
+            return new ResponseEntity<>(taskService.findTaskById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("/create")
-    public Mono<ResponseEntity<TaskDto>> createTask(@RequestBody Mono<TaskDto> task){
-        return taskService.createTask(task)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto task){
+        return new ResponseEntity<>(taskService.createTask(task), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public Mono<ResponseEntity<TaskDto>> updateTask(@RequestBody Mono<TaskDto> task){
-        return taskService.updateTask(task)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<TaskDto>updateTask(@RequestBody TaskDto task){
+        try {
+            return new ResponseEntity<>(taskService.updateTask(task), HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
-    public Mono<?> deleteTask(@PathVariable("id") int id){
-        return taskService.deleteTask(id);
+    public ResponseEntity<?> deleteTask(@PathVariable("id") int id){
+        taskService.deleteTask(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

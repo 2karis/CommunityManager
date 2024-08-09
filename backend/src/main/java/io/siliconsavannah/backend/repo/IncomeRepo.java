@@ -7,4 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface IncomeRepo extends JpaRepository<Income, Integer> {
+    void deleteIncomeById(int id);
+
+    Optional<Income> findIncomeById(int id);
 }

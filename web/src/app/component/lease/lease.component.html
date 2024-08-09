@@ -1,10 +1,10 @@
 <h2 class="h2 pt-3 pb-2">Lease</h2>
 <div class="btn-toolbar mb-2 mb-md-0">
   <div class="btn-group me-2">
-    <button type="button" class="btn btn-sm btn-outline-secondary">Add</button>
+    <button type="button" (click)="onOpenModal()" type="button" data-bs-toggle="modal" data-bs-target="#createLeaseModal" class="btn btn-sm btn-outline-secondary">Add</button>
   </div>
   <form class="form-inline my-2 my-lg-0">
-    <input type="search" (ngModelChange)="searchLease(key.value)" #key="ngModel" ngModel name="key" id="searchExpense" class="form-control mr-sm-2" placeholder="Search" aria-label="Search">
+    <input type="search" (ngModelChange)="searchLease(key.value)" #key="ngModel" ngModel name="key" id="searchLease" class="form-control mr-sm-2" placeholder="Search" aria-label="Search">
   </form>
 </div>
 <br>
@@ -52,3 +52,213 @@
     </tbody>
   </table>
 </div>
+
+<div class="modal fade" id="createLeaseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form #createForm="ngForm" (ngSubmit)="onCreateLease(createForm)">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create new Lease</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name" class="col-form-label">termFrom:</label>
+            <input type="date" ngModel class="form-control" id="termFrom" name="termFrom">
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">termTo:</label>
+            <input type="date" ngModel class="form-control" id="termTo" name="termTo">
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">rent:</label>
+            <input type="text" ngModel class="form-control" id="rent" name="rent">
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">deposit:</label>
+            <input type="text" ngModel class="form-control" id="deposit" name="deposit">
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">status:</label>
+            <input type="text" ngModel class="form-control" id="status" name="status" >
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">file:</label>
+            <input type="file" ngModel class="form-control" id="file" name="file" >
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">property:</label>
+            <input type="text" ngModel class="form-control" id="property" name="property" >
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">users:</label>
+            <input type="text" ngModel class="form-control" id="users" name="users" >
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="createClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" [disabled]="createForm.form.invalid" class="btn btn-primary">Create</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="lease">
+
+<div class="modal fade" id="readLeaseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Read Lease</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group-item bg-body-tertiary rounded-3 pt-3 pb-2">
+          <div class="row">
+            <div class="col-3">
+                <h5 class="mb-0">termFrom</h5>
+            </div>
+            <div class="col-9">
+                <p class="text mb-0">{{lease!.termFrom}}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-3">
+              <h5 class="mb-0">termTo</h5>
+          </div>
+          <div class="col-9">
+              <p class="text mb-0">{{lease!.termTo}}</p>
+          </div>
+      </div>
+      <hr>
+          <div class="row">
+              <div class="col-3">
+                  <h5 class="mb-0">rent</h5>
+              </div>
+              <div class="col-9">
+                  <p class="text mb-0">{{lease!.rent}}</p>
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-3">
+                  <h5 class="mb-0">deposit</h5>
+              </div>
+              <div class="col-9">
+                  <p class="text mb-0">{{lease!.deposit}}</p>
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-3">
+                <h5 class="mb-0">status</h5>
+            </div>
+            <div class="col-9">
+                <p class="text mb-0">{{lease!.status}}</p>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+              <h5 class="mb-0">property</h5>
+          </div>
+          <div class="col-9">
+              <p class="text mb-0">{{lease!.property}}</p>
+          </div>
+      </div>
+      
+    <div class="row">
+      <div class="col-3">
+          <h5 class="mb-0">createdAt</h5>
+      </div>
+      <div class="col-9">
+          <p class="text mb-0">{{lease!.createdAt}}</p>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-3">
+        <h5 class="mb-0">updatedAt</h5>
+    </div>
+    <div class="col-9">
+        <p class="text mb-0">{{lease!.updatedAt}}</p>
+    </div>
+</div>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateLeaseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form #updateForm="ngForm" (ngSubmit)="onUpdateLease(updateForm)">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Lease</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name" class="col-form-label">termFrom:</label>
+            <input type="text" ngModel="{{lease!.termFrom}}" class="form-control" id="firstName" name="firstName" value="{{lease!.termFrom}}" required>
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">termTo:</label>
+            <input type="text" ngModel="{{lease!.termTo}}" class="form-control" id="lastName" name="lastName" value="{{lease!.termTo}}" required>
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">rent:</label>
+            <input type="text" ngModel="{{lease!.rent}}" class="form-control" id="email" name="email" value="{{lease!.rent}}" required>
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">deposit:</label>
+            <input type="text" ngModel="{{lease!.deposit}}" class="form-control" id="password" name="password" value="{{lease!.deposit}}" required>
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">status:</label>
+            <input type="text" ngModel="{{lease!.status}}" class="form-control" id="role" name="role" value="{{lease!.status}}" required>
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">property:</label>
+            <input type="text" ngModel="{{lease!.property}}" class="form-control" id="phone" name="phone" value="{{lease!.property}}" required>
+          </div> 
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" ngModel="{{lease!.id}}" class="form-control" id="id" name="id" value="{{lease!.id}}" >
+        <input type="hidden" ngModel="{{lease!.createdAt}}" class="form-control" id="createdAt" name="createdAt" value="{{lease!.createdAt}}" >
+        <input type="hidden" ngModel="{{lease!.updatedAt}}" class="form-control" id="updatedAt" name="updatedAt" value="{{lease!.updatedAt}}" >
+
+        <button type="button" id="updateClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit"  class="btn btn-primary">Update</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteLeaseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Lease </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this Lease? with id <Strong>{{lease!.id}} </Strong>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="deleteClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" (click)="onDeleteLease(lease.id)" class="btn btn-primary">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+</ng-container>

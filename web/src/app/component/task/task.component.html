@@ -42,7 +42,7 @@
     </tbody>
   </table>
 </div>
-<div *ngIf="tasks?.length==0">
+<div *ngIf="tasks!.length==0">
   <div class="alert alert-secondary" role="alert">
     No tasks 
   </div>
@@ -96,7 +96,7 @@
       </div>
     </div>
   </div>
-  
+  <ng-container *ngIf="task">
   <div class="modal fade" id="readTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -106,13 +106,14 @@
           </button>
         </div>
         <div class="modal-body">
+         
           <div class="list-group-item bg-body-tertiary rounded-3 pt-3 pb-2">
             <div class="row">
                 <div class="col-3">
                     <h5 class="mb-0">Title</h5>
                 </div>
                 <div class="col-9">
-                    <p class="text mb-0">{{task?.title}}</p>
+                    <p class="text mb-0">{{task!.title}}</p>
                 </div>
             </div>
             <hr>
@@ -121,7 +122,7 @@
                     <h5 class="mb-0">Description</h5>
                 </div>
                 <div class="col-9">
-                    <p class="text mb-0">{{task?.description}}</p>
+                    <p class="text mb-0">{{task!.description}}</p>
                 </div>
             </div>
             <hr>
@@ -130,7 +131,7 @@
                     <h5 class="mb-0">Type</h5>
                 </div>
                 <div class="col-9">
-                    <p class="text mb-0">{{task?.type}}</p>
+                    <p class="text mb-0">{{task!.type}}</p>
                 </div>
             </div>
             <hr>
@@ -139,16 +140,16 @@
                   <h5 class="mb-0">Status</h5>
               </div>
               <div class="col-9">
-                  <p class="text mb-0">{{task?.status}}</p>
+                  <p class="text mb-0">{{task!.status}}</p>
               </div>
           </div>
           <hr>
-          <div *ngIf="task?.image!= null" class="row">
+          <div *ngIf="task!.image!= null" class="row">
             <div class="col-3">
                 <h5 class="mb-0">image</h5>
             </div>
             <div class="col-9">
-              <img src="{{task?.image}}"  class="img-fluid rounded-circle w-60">
+              <img src="{{task!.image}}"  class="img-fluid rounded-circle w-60">
             </div>
         </div>
         </div>
@@ -172,12 +173,12 @@
           <div class="modal-body">
             <div class="form-group">
               <label for="name" class="col-form-label">title:</label>
-              <input type="text" ngModel="{{task?.title}}" class="form-control" id="title" name="title" value="{{task?.title}}" required>
+              <input type="text" ngModel="{{task!.title}}" class="form-control" id="title" name="title" value="{{task!.title}}" required>
             </div>
             
             <div class="form-group">
               <label for="description" class="col-form-label">description:</label>
-              <textarea type="text" ngModel="{{task?.description}}" class="form-control" id="description" name="description" value="{{task?.description}}"></textarea>
+              <textarea type="text" ngModel="{{task!.description}}" class="form-control" id="description" name="description" value="{{task!.description}}"></textarea>
             </div>
             <div class="form-group">
               <label for="title" class="col-form-label">type:</label>
@@ -190,7 +191,7 @@
 
             <div class="form-group">
               <label for="image" class="col-form-label">image:</label>
-              <input type="file" ngModel="{{task?.image}}" class="form-control" id="imageUrl" name="imageUrl" value="{{task?.image}}">
+              <input type="file" ngModel="{{task!.image}}" class="form-control" id="imageUrl" name="imageUrl" value="{{task!.image}}">
             </div>
             <div class="form-group">
               <label for="status" class="col-form-label">status:</label>
@@ -202,9 +203,9 @@
             </div>
         </div>
         <div class="modal-footer">
-          <input type="hidden" ngModel="{{task?.id}}" class="form-control" id="id" name="id" value="{{task?.id}}" >
-          <input type="hidden" ngModel="{{task?.createdAt}}" class="form-control" id="createdAt" name="createdAt" value="{{task?.createdAt}}" >
-          <input type="hidden" ngModel="{{task?.updatedAt}}" class="form-control" id="updatedAt" name="updatedAt" value="{{task?.updatedAt}}" >
+          <input type="hidden" ngModel="{{task!.id}}" class="form-control" id="id" name="id" value="{{task!.id}}" >
+          <input type="hidden" ngModel="{{task!.createdAt}}" class="form-control" id="createdAt" name="createdAt" value="{{task!.createdAt}}" >
+          <input type="hidden" ngModel="{{task!.updatedAt}}" class="form-control" id="updatedAt" name="updatedAt" value="{{task!.updatedAt}}" >
 
           <button type="button" id="updateClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit"  class="btn btn-primary">Update</button>
@@ -224,7 +225,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to delete  <Strong>{{task?.title}}</Strong>?</p>
+          <p>Are you sure you want to delete  <Strong>{{task!.title}}</Strong>?</p>
         </div>
         <div class="modal-footer">
           <button type="button" id="deleteClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -233,4 +234,5 @@
       </div>
     </div>
   </div>
+</ng-container>
 </div>

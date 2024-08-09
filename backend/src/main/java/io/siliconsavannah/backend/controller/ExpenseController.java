@@ -1,6 +1,7 @@
 package io.siliconsavannah.backend.controller;
 
 import io.siliconsavannah.backend.dto.ExpenseDto;
+import io.siliconsavannah.backend.dto.ExpenseDto;
 import io.siliconsavannah.backend.mapper.ExpenseMapper;
 import io.siliconsavannah.backend.model.Expense;
 import io.siliconsavannah.backend.service.ExpenseService;
@@ -20,33 +21,36 @@ public class ExpenseController {
     @Autowired
     public ExpenseService expenseService;
     @GetMapping("/readall")
-    public Flux<ExpenseDto> getAllExpenses(){
-        return expenseService.readAllExpenses();
+    public ResponseEntity<List<ExpenseDto>> getAllExpenses(){
+        return new ResponseEntity<>(expenseService.readAllExpenses(), HttpStatus.OK);
     }
 
     @GetMapping("/read/{id}")
-    public Mono<ResponseEntity<ExpenseDto>> getExpense(@PathVariable("id") int id){
-        return expenseService.findExpenseById(id)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<ExpenseDto> getExpense(@PathVariable("id") int id){
+        try {
+            return new ResponseEntity<>(expenseService.findExpenseById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("/create")
-    public Mono<ResponseEntity<ExpenseDto>> createExpense(@RequestBody Mono<ExpenseDto> expense){
-        return expenseService.createExpense(expense)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<ExpenseDto> createExpense(@RequestBody ExpenseDto expense){
+        return new ResponseEntity<>(expenseService.createExpense(expense), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public Mono<ResponseEntity<ExpenseDto>> updateExpense(@RequestBody Mono<ExpenseDto> expense){
-        return expenseService.updateExpense(expense)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<ExpenseDto>updateExpense(@RequestBody ExpenseDto expense){
+        try {
+            return new ResponseEntity<>(expenseService.updateExpense(expense), HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
-    public Mono<?> deleteExpense(@PathVariable("id") int id){
-        return expenseService.deleteExpense(id);
+    public ResponseEntity<?> deleteExpense(@PathVariable("id") int id){
+        expenseService.deleteExpense(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

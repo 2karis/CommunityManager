@@ -16,11 +16,11 @@ import { RouterOutlet } from '@angular/router';
 export class TaskComponent {
   public tasks : Task[];
 
-  public task : Task;
+  public task! : Task;
 
   constructor(private taskService : TaskService){
     this.tasks = [];
-    this.task = <Task>{};
+    this!.task = <Task>{};
   }
   ngOnInit(): void {
     this.getTasks();

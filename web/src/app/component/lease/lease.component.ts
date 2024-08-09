@@ -33,7 +33,7 @@ export class LeaseComponent {
         console.log(this.leases);
       },
       (error :HttpErrorResponse)=>{
-        alert(error.message);
+        alert(error);
       }
     )
   }
@@ -46,6 +46,7 @@ export class LeaseComponent {
     this.leaseService.createLease(createForm.value).subscribe({
       error: (e) => {
         alert(e);
+        console.log(e);
       },
       complete: () => {
         this.getLeases();
@@ -72,6 +73,7 @@ export class LeaseComponent {
     this.leaseService.deleteLease(id).subscribe({
       error: (error) => {
         alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getLeases();

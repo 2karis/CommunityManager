@@ -23,12 +23,14 @@ export class PropertyComponent {
     this.property = <Property>{};
   }
   ngOnInit(): void {
-    this.getPropertys();
+    
+    this.getProperties();
   }
 
-  public getPropertys(): void{
+  public getProperties(): void{
     this.propertyService.getPropertys().subscribe(
       (response: Property[])=>{
+
         this.properties=response;
         console.log(this.properties);
       },
@@ -46,9 +48,10 @@ export class PropertyComponent {
     this.propertyService.createProperty(createForm.value).subscribe({
       error: (e) => {
         alert(e);
+        console.log(e);
       },
       complete: () => {
-        this.getPropertys();
+        this.getProperties();
         createForm.reset();
         document.getElementById("createClose")?.click()
       } 
@@ -61,7 +64,7 @@ export class PropertyComponent {
         alert(error);
       },
       complete: () => {
-        this.getPropertys();
+        this.getProperties();
         updateForm.reset();
         document.getElementById("updateClose")?.click()
       } 
@@ -74,7 +77,7 @@ export class PropertyComponent {
         alert(error);
       },
       complete: () => {
-        this.getPropertys();
+        this.getProperties();
         document.getElementById("deleteClose")?.click()
       } 
     })
@@ -89,7 +92,7 @@ export class PropertyComponent {
     }
     this.properties = results;
     if(results.length===0 || !key){
-      this.getPropertys();
+      this.getProperties();
     }
   }
 }

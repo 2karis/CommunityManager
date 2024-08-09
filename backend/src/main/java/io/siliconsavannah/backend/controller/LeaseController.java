@@ -1,6 +1,6 @@
 package io.siliconsavannah.backend.controller;
 
-import io.siliconsavannah.backend.dto.IncomeDto;
+import io.siliconsavannah.backend.dto.LeaseDto;
 import io.siliconsavannah.backend.dto.LeaseDto;
 import io.siliconsavannah.backend.model.Lease;
 import io.siliconsavannah.backend.service.LeaseService;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin
@@ -20,33 +22,36 @@ public class LeaseController {
     public LeaseService leaseService;
 
     @GetMapping("/readall")
-    public Flux<LeaseDto> getAllLeases(){
-        return leaseService.readAllLeases();
+    public ResponseEntity<List<LeaseDto>> getAllLeases(){
+        return new ResponseEntity<>(leaseService.readAllLeases(), HttpStatus.OK);
     }
 
     @GetMapping("/read/{id}")
-    public Mono<ResponseEntity<LeaseDto>> getLease(@PathVariable("id") int id){
-        return leaseService.findLeaseById(id)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<LeaseDto> getLease(@PathVariable("id") int id){
+        try {
+            return new ResponseEntity<>(leaseService.findLeaseById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("/create")
-    public Mono<ResponseEntity<LeaseDto>> createLease(@RequestBody Mono<LeaseDto> lease){
-        return leaseService.createLease(lease)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<LeaseDto> createLease(@RequestBody LeaseDto lease){
+        return new ResponseEntity<>(leaseService.createLease(lease), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public Mono<ResponseEntity<LeaseDto>> updateLease(@RequestBody Mono<LeaseDto> lease){
-        return leaseService.updateLease(lease)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<LeaseDto>updateLease(@RequestBody LeaseDto lease){
+        try {
+            return new ResponseEntity<>(leaseService.updateLease(lease), HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
-    public Mono<?> deleteLease(@PathVariable("id") int id){
-        return leaseService.deleteLease(id);
+    public ResponseEntity<?> deleteLease(@PathVariable("id") int id){
+        leaseService.deleteLease(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

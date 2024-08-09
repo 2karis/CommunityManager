@@ -1,4 +1,4 @@
-<h2 class="h2 pt-3 pb-2">Tenants</h2>
+<h2 class="h2 pt-3 pb-2">Users</h2>
 <div class="btn-toolbar mb-2 mb-md-0">
   <div class="btn-group me-2">
     <button type="button" class="btn btn-sm btn-outline-secondary" (click)="onOpenModal()" type="button" data-bs-toggle="modal" data-bs-target="#createUserModal" >Add User</button>
@@ -26,7 +26,7 @@
     </div>
   </li>
 </ul>
-<div *ngIf="users?.length==0">
+<div *ngIf="users!.length==0">
 <div class="alert alert-secondary" role="alert">
   No users 
 </div>
@@ -44,31 +44,31 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="name" class="col-form-label">firstName:</label>
-            <input type="text" ngModel="{{user?.firstName}}" class="form-control" id="firstName" name="firstName" required>
+            <input type="text" ngModel class="form-control" id="firstName" name="firstName" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">lastName:</label>
-            <input type="text" ngModel="{{user?.lastName}}" class="form-control" id="lastName" name="lastName" required>
+            <input type="text" ngModel class="form-control" id="lastName" name="lastName" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">Email:</label>
-            <input type="text" ngModel="{{user?.email}}" class="form-control" id="email" name="email" required>
+            <input type="text" ngModel class="form-control" id="email" name="email" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">Password:</label>
-            <input type="text" ngModel="{{user?.password}}" class="form-control" id="password" name="password" required>
+            <input type="text" ngModel class="form-control" id="password" name="password" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">Role:</label>
-            <input type="text" ngModel="{{user?.role}}" class="form-control" id="role" name="role"  required>
+            <input type="text" ngModel class="form-control" id="role" name="role"  required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">phone:</label>
-            <input type="text" ngModel="{{user?.phone}}" class="form-control" id="phone" name="phone"  required>
+            <input type="text" ngModel class="form-control" id="phone" name="phone"  required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">ImageUrl:</label>
-            <input type="text" ngModel="{{user?.imageUrl}}" class="form-control" id="imageUrl" name="imageUrl" required>
+            <input type="text" ngModel class="form-control" id="imageUrl" name="imageUrl" required>
           </div>
       </div>
       <div class="modal-footer">
@@ -79,6 +79,7 @@
     </div>
   </div>
 </div>
+<ng-container *ngIf="user">
 
 <div class="modal fade" id="readUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -95,7 +96,7 @@
                 <h5 class="mb-0">firstName</h5>
             </div>
             <div class="col-9">
-                <p class="text mb-0">{{user?.firstName}}</p>
+                <p class="text mb-0">{{user!.firstName}}</p>
             </div>
         </div>
         <hr>
@@ -104,7 +105,7 @@
               <h5 class="mb-0">lastName</h5>
           </div>
           <div class="col-9">
-              <p class="text mb-0">{{user?.lastName}}</p>
+              <p class="text mb-0">{{user!.lastName}}</p>
           </div>
       </div>
       <hr>
@@ -113,7 +114,7 @@
                   <h5 class="mb-0">Email</h5>
               </div>
               <div class="col-9">
-                  <p class="text mb-0">{{user?.email}}</p>
+                  <p class="text mb-0">{{user!.email}}</p>
               </div>
           </div>
           <hr>
@@ -122,7 +123,7 @@
                   <h5 class="mb-0">Password</h5>
               </div>
               <div class="col-9">
-                  <p class="text mb-0">{{user?.password}}</p>
+                  <p class="text mb-0">{{user!.password}}</p>
               </div>
           </div>
           <hr>
@@ -131,7 +132,7 @@
                 <h5 class="mb-0">role</h5>
             </div>
             <div class="col-9">
-                <p class="text mb-0">{{user?.role}}</p>
+                <p class="text mb-0">{{user!.role}}</p>
             </div>
         </div>
         <div class="row">
@@ -139,16 +140,16 @@
               <h5 class="mb-0">Phone</h5>
           </div>
           <div class="col-9">
-              <p class="text mb-0">{{user?.phone}}</p>
+              <p class="text mb-0">{{user!.phone}}</p>
           </div>
       </div>
         <hr>
-        <div *ngIf="user?.imageUrl!= null" class="row">
+        <div *ngIf="user!.imageUrl!= null" class="row">
           <div class="col-3">
               <h5 class="mb-0">image</h5>
           </div>
           <div class="col-9">
-            <img src="{{user?.imageUrl}}"  class="img-fluid rounded-circle w-60">
+            <img src="{{user!.imageUrl}}"  class="img-fluid rounded-circle w-60">
           </div>
       </div>
       </div>
@@ -172,37 +173,37 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="name" class="col-form-label">firstName:</label>
-            <input type="text" ngModel="{{user?.firstName}}" class="form-control" id="firstName" name="firstName" value="{{user?.firstName}}" required>
+            <input type="text" ngModel="{{user!.firstName}}" class="form-control" id="firstName" name="firstName" value="{{user!.firstName}}" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">lastName:</label>
-            <input type="text" ngModel="{{user?.lastName}}" class="form-control" id="lastName" name="lastName" value="{{user?.lastName}}" required>
+            <input type="text" ngModel="{{user!.lastName}}" class="form-control" id="lastName" name="lastName" value="{{user!.lastName}}" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">Email:</label>
-            <input type="text" ngModel="{{user?.email}}" class="form-control" id="email" name="email" value="{{user?.email}}" required>
+            <input type="text" ngModel="{{user!.email}}" class="form-control" id="email" name="email" value="{{user!.email}}" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">Password:</label>
-            <input type="text" ngModel="{{user?.password}}" class="form-control" id="password" name="password" value="{{user?.password}}" required>
+            <input type="text" ngModel="{{user!.password}}" class="form-control" id="password" name="password" value="{{user!.password}}" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">Role:</label>
-            <input type="text" ngModel="{{user?.role}}" class="form-control" id="role" name="role" value="{{user?.role}}" required>
+            <input type="text" ngModel="{{user!.role}}" class="form-control" id="role" name="role" value="{{user!.role}}" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">Phone:</label>
-            <input type="text" ngModel="{{user?.phone}}" class="form-control" id="phone" name="phone" value="{{user?.phone}}" required>
+            <input type="text" ngModel="{{user!.phone}}" class="form-control" id="phone" name="phone" value="{{user!.phone}}" required>
           </div>
           <div class="form-group">
             <label for="name" class="col-form-label">ImageUrl:</label>
-            <input type="text" ngModel="{{user?.imageUrl}}" class="form-control" id="imageUrl" name="imageUrl" value="{{user?.imageUrl}}" required>
+            <input type="text" ngModel="{{user!.imageUrl}}" class="form-control" id="imageUrl" name="imageUrl" value="{{user!.imageUrl}}" required>
           </div>
       </div>
       <div class="modal-footer">
-        <input type="hidden" ngModel="{{user?.id}}" class="form-control" id="id" name="id" value="{{user?.id}}" >
-        <input type="hidden" ngModel="{{user?.createdAt}}" class="form-control" id="createdAt" name="createdAt" value="{{user?.createdAt}}" >
-        <input type="hidden" ngModel="{{user?.updatedAt}}" class="form-control" id="updatedAt" name="updatedAt" value="{{user?.updatedAt}}" >
+        <input type="hidden" ngModel="{{user!.id}}" class="form-control" id="id" name="id" value="{{user!.id}}" >
+        <input type="hidden" ngModel="{{user!.createdAt}}" class="form-control" id="createdAt" name="createdAt" value="{{user!.createdAt}}" >
+        <input type="hidden" ngModel="{{user!.updatedAt}}" class="form-control" id="updatedAt" name="updatedAt" value="{{user!.updatedAt}}" >
 
         <button type="button" id="updateClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit"  class="btn btn-primary">Update</button>
@@ -222,7 +223,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete  <Strong>{{user?.firstName}} {{user?.lastName}}</Strong>?</p>
+        <p>Are you sure you want to delete  <Strong>{{user!.firstName}} {{user!.lastName}}</Strong>?</p>
       </div>
       <div class="modal-footer">
         <button type="button" id="deleteClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -231,4 +232,5 @@
     </div>
   </div>
 </div>
+</ng-container>
 </div>

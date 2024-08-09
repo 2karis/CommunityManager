@@ -1,9 +1,11 @@
 package io.siliconsavannah.backend.service;
 
+import io.siliconsavannah.backend.dto.UserDto;
 import io.siliconsavannah.backend.dto.TaskDto;
 import io.siliconsavannah.backend.dto.UserDto;
 import io.siliconsavannah.backend.dto.UserDto;
 import io.siliconsavannah.backend.mapper.UserMapper;
+import io.siliconsavannah.backend.model.User;
 import io.siliconsavannah.backend.model.User;
 import io.siliconsavannah.backend.model.User;
 import io.siliconsavannah.backend.repo.UserRepo;
@@ -27,54 +29,35 @@ public class UserService {
     private UserRepo userRepo;
 
 
-    public Mono<UserDto> createUser(Mono<UserDto> userDto){
-        return userDto
-                .map(userMapper::dtoToEntity)
-                .map(userRepo::save)
-                .map(userMapper::entityToDto)
-                .subscribeOn(Schedulers.boundedElastic());
+    public UserDto createUser(UserDto user){
+        return userMapper.entityToDto(userRepo.save(userMapper.dtoToEntity(user)));
     }
 
-    public Flux<UserDto> readAllUsers(){
-        return Flux.fromStream(() -> userRepo.findAll().stream())
-                .map(userMapper::entityToDto)
-                .subscribeOn(Schedulers.boundedElastic());
+    public List<UserDto> readAllUsers(){
+        return userRepo.findAll().stream().map(userMapper::entityToDto).collect(Collectors.toList());
     }
 
-    public Mono<UserDto> updateUser(Mono<UserDto> userDto){
-        return userDto
-                .flatMap(dto-> Mono.fromSupplier(()->userRepo.findById(dto.id()))
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .map(entity->{
-                            if (dto.firstName()!= null) entity.setFirstName(dto.firstName());
-                            if (dto.lastName()!= null) entity.setLastName(dto.lastName());
-                            if (dto.email()!= null) entity.setEmail(dto.email());
-                            if (dto.password()!= null) entity.setPassword(dto.password());
-                            if (dto.role()!= null) entity.setRole(dto.role());
-                            if (dto.phone()!= null) entity.setPhone(dto.phone());
-                            if (dto.imageUrl()!= null) entity.setImageUrl(dto.imageUrl());
-                            if (dto.tasks()!= null) entity.setTasks(dto.tasks());
-                            return userRepo.save(entity);
-                        })
-                )
-                .filter(Objects::nonNull)
-                .map(userMapper::entityToDto)
-                .switchIfEmpty(Mono.error(Throwable::new))
-                .subscribeOn(Schedulers.boundedElastic());
+    public UserDto updateUser(UserDto dto) throws Exception {
+        User entity = userRepo.findUserById(dto.id())
+                .orElseThrow(() -> new Exception("user with id "+ dto.id() +" not found"));
+
+        if (dto.firstName()!= null) entity.setFirstName(dto.firstName());
+        if (dto.lastName()!= null) entity.setLastName(dto.lastName());
+        if (dto.email()!= null) entity.setEmail(dto.email());
+        if (dto.password()!= null) entity.setPassword(dto.password());
+        if (dto.role()!= null) entity.setRole(dto.role());
+        if (dto.phone()!= null) entity.setPhone(dto.phone());
+        if (dto.imageUrl()!= null) entity.setImageUrl(dto.imageUrl());
+        if (dto.tasks()!= null) entity.setTasks(dto.tasks());
+
+        return userMapper.entityToDto(userRepo.save(entity));
+    }
+    public void deleteUser(int id){
+        userRepo.deleteUserById(id);
     }
 
-    public Mono<Void> deleteUser(int id){
-        return Mono.fromRunnable(()->{userRepo.deleteById(id);})
-                .then()
-                .subscribeOn(Schedulers.boundedElastic());
-    }
-
-    public Mono<UserDto> findUserById(int id){
-        return Mono.fromSupplier(()->userRepo.findById(id))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(userMapper::entityToDto)
-                .subscribeOn(Schedulers.boundedElastic());
+    public UserDto findUserById(int id) throws Exception {
+        return userMapper.entityToDto(userRepo.findUserById(id)
+                .orElseThrow(() -> new Exception("user with id "+ id +" not found")));
     }
 }

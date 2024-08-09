@@ -2,6 +2,7 @@ package io.siliconsavannah.backend.controller;
 
 import io.siliconsavannah.backend.dto.PropertyDto;
 import io.siliconsavannah.backend.dto.PropertyDto;
+import io.siliconsavannah.backend.dto.PropertyDto;
 import io.siliconsavannah.backend.model.Property;
 import io.siliconsavannah.backend.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,33 +22,36 @@ public class PropertyController {
     public PropertyService propertyService;
 
     @GetMapping("/readall")
-    public Flux<PropertyDto> getAllPropertys(){
-        return propertyService.readAllPropertys();
+    public ResponseEntity<List<PropertyDto>> getAllPropertys(){
+        return new ResponseEntity<>(propertyService.readAllPropertys(), HttpStatus.OK);
     }
 
     @GetMapping("/read/{id}")
-    public Mono<ResponseEntity<PropertyDto>> getProperty(@PathVariable("id") int id){
-        return propertyService.findPropertyById(id)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<PropertyDto> getProperty(@PathVariable("id") int id){
+        try {
+            return new ResponseEntity<>(propertyService.findPropertyById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("/create")
-    public Mono<ResponseEntity<PropertyDto>> createProperty(@RequestBody Mono<PropertyDto> property){
-        return propertyService.createProperty(property)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<PropertyDto> createProperty(@RequestBody PropertyDto property){
+        return new ResponseEntity<>(propertyService.createProperty(property), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public Mono<ResponseEntity<PropertyDto>> updateProperty(@RequestBody Mono<PropertyDto> property){
-        return propertyService.updateProperty(property)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<PropertyDto>updateProperty(@RequestBody PropertyDto property){
+        try {
+            return new ResponseEntity<>(propertyService.updateProperty(property), HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
-    public Mono<?> deleteProperty(@PathVariable("id") int id){
-        return propertyService.deleteProperty(id);
+    public ResponseEntity<?> deleteProperty(@PathVariable("id") int id){
+        propertyService.deleteProperty(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -16,5 +16,5 @@ export const routes: Routes = [
     {path:"task", component: TaskComponent},
     {path:"user", component: UserComponent},
     {path:"dashboard", component: DashboardComponent},
-    {path:"account", component: AccountComponent}
+    {path:"account/:id", component: AccountComponent}
 ];

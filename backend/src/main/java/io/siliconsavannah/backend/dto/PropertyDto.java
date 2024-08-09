@@ -12,7 +12,7 @@ public record PropertyDto (
         String unit,
         Timestamp createdAt,
         Timestamp updatedAt,
-        HashSet<Lease> lease,
+//        HashSet<Lease> lease,
         HashSet<Expense> expense
 ){
 }

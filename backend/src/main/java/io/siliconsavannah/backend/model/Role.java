@@ -5,17 +5,17 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-@Table(name="document")
+import java.util.List;
+
+@Table(name="role")
 @Entity
-public class Document {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String filename;
-    private String fileLocation;
+    private String role;
     @CreationTimestamp
     private Timestamp createdAt;
     @UpdateTimestamp
     private Timestamp updatedAt;
-
 }

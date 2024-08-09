@@ -1,14 +1,10 @@
 package io.siliconsavannah.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.repository.cdi.Eager;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -26,9 +22,9 @@ public @Data class Property {
     private Timestamp createdAt;
     @UpdateTimestamp
     private Timestamp updatedAt;
-    @OneToMany(mappedBy="id")
-    private Set<Lease> lease;
-    @OneToMany(mappedBy="id")
+//    @OneToMany(mappedBy="id",fetch = FetchType.EAGER)
+//    private Set<Lease> lease;
+    @OneToMany(mappedBy="id" ,fetch = FetchType.EAGER)
     private Set<Expense> expense;
 
 

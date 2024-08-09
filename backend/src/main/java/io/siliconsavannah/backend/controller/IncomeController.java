@@ -1,12 +1,16 @@
 package io.siliconsavannah.backend.controller;
 
 import io.siliconsavannah.backend.dto.IncomeDto;
+import io.siliconsavannah.backend.model.Income;
 import io.siliconsavannah.backend.service.IncomeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -16,33 +20,36 @@ public class IncomeController {
     public IncomeService incomeService;
 
     @GetMapping("/readall")
-    public Flux<IncomeDto> getAllIncomes(){
-        return incomeService.readAllIncomes();
+    public ResponseEntity<List<IncomeDto>> getAllIncomes(){
+        return new ResponseEntity<>(incomeService.readAllIncomes(), HttpStatus.OK);
     }
 
     @GetMapping("/read/{id}")
-    public Mono<ResponseEntity<IncomeDto>> getIncome(@PathVariable("id") int id){
-        return incomeService.findIncomeById(id)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<IncomeDto> getIncome(@PathVariable("id") int id){
+        try {
+            return new ResponseEntity<>(incomeService.findIncomeById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("/create")
-    public Mono<ResponseEntity<IncomeDto>> createIncome(@RequestBody Mono<IncomeDto> income){
-        return incomeService.createIncome(income)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<IncomeDto> createIncome(@RequestBody IncomeDto income){
+        return new ResponseEntity<>(incomeService.createIncome(income), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public Mono<ResponseEntity<IncomeDto>> updateIncome(@RequestBody Mono<IncomeDto> income){
-        return incomeService.updateIncome(income)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    public ResponseEntity<IncomeDto>updateIncome(@RequestBody IncomeDto income){
+        try {
+            return new ResponseEntity<>(incomeService.updateIncome(income), HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
-    public Mono<?> deleteIncome(@PathVariable("id") int id){
-        return incomeService.deleteIncome(id);
+    public ResponseEntity<?> deleteIncome(@PathVariable("id") int id){
+        incomeService.deleteIncome(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
