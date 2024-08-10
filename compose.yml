@@ -39,5 +39,3 @@ volumes:
   caddy_config:
 networks:
   network : 
-
-  
