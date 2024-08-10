@@ -1,6 +1,10 @@
 134.209.47.74:80 {
-	reverse_proxy /api/* backend:8080
-	reverse_proxy /* web:4200
+	handle /api/* {
+		reverse_proxy backend:8080
+	}
+	handle /* {
+		reverse_proxy  web:4200
+	}
 }
 
 # localhost:80 {
