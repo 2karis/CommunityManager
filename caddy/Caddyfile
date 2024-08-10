@@ -1,4 +1,4 @@
-134.209.47.74:80 {
+161.35.251.91:80 {
 	handle /api/* {
 		reverse_proxy backend:8080
 	}
