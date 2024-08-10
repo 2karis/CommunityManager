@@ -19,8 +19,6 @@ services:
       context: web
     networks:
       - network
-    ports:
-      - "4200:4200"
   caddy:
     image: caddy:2.7.6-alpine
     restart: unless-stopped
