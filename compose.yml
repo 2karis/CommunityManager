@@ -1,7 +1,7 @@
 
 services:
   db:
-    image: mysql
+    image: mariadb:11.5.1-ubi9-rc
     restart: on-failure
     environment:
       MYSQL_ROOT_PASSWORD: password
@@ -9,6 +9,8 @@ services:
     networks:
       - network
   backend:
+    ports:
+      - "8080:8080"
     restart: on-failure
     build: ./backend
     networks:

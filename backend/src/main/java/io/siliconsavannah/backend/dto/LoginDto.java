@@ -1,2 +1,10 @@
-package io.siliconsavannah.backend.dto;public record LoginDto() {
+package io.siliconsavannah.backend.dto;
+
+import lombok.Builder;
+
+@Builder
+public record LoginDto(
+        String email,
+        String password) {
+
 }

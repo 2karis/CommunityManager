@@ -8,6 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 @Table(name="expense")
 @Entity
+@NoArgsConstructor
 public @Data class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

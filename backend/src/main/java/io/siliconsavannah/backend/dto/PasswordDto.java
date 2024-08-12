@@ -1,2 +1,4 @@
-package io.siliconsavannah.backend.dto;public class PasswordDto {
+package io.siliconsavannah.backend.dto;
+
+public record PasswordDto(String password) {
 }

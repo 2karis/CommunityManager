@@ -1,2 +1,7 @@
-package io.siliconsavannah.backend.configuration;public class ApplicationConfiguration {
+package io.siliconsavannah.backend.configuration;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class ApplicationConfiguration {
 }

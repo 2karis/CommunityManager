@@ -1,4 +1,13 @@
-161.35.251.91:80 {
+# 161.35.251.91:80 {
+# 	handle /api/* {
+# 		reverse_proxy backend:8080
+# 	}
+# 	handle /* {
+# 		reverse_proxy  web:4200
+# 	}
+# }
+
+localhost:80 {
 	handle /api/* {
 		reverse_proxy backend:8080
 	}
@@ -6,24 +15,3 @@
 		reverse_proxy  web:4200
 	}
 }
-
-# localhost:80 {
-# 	reverse_proxy /api/* backend:8080
-# 	reverse_proxy /* web:4200
-# }
-
-
-
-# server {
-#   listen 80;
-#   location / {
-#     proxy_pass http://web:4200;
-#     proxy_set_header Upgrade $http_upgrade;
-#     proxy_set_header Connection "upgrade";
-#   }
-#   location /api {
-#     proxy_pass http://backend:8080;
-#     proxy_set_header Upgrade $http_upgrade;
-#     proxy_set_header Connection "upgrade";
-#   }
-# }
