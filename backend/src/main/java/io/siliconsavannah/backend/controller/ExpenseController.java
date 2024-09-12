@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/management/expense")
+@RequestMapping("/api/expense")
 public class ExpenseController {
     @Autowired
     public ExpenseService expenseService;

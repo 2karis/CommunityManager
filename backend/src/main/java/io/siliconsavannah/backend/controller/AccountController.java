@@ -17,7 +17,7 @@ public class AccountController {
             return ResponseEntity.badRequest().body("failed to login User "+e.getMessage());
         }
     }
-    @PostMapping("/invoices")
+    @GetMapping("/invoices")
     public ResponseEntity<?> getInvoices(){
         try{
             return ResponseEntity.ok("All service requests successfully read");

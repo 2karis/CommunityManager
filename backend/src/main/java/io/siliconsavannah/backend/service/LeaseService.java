@@ -6,6 +6,7 @@ import io.siliconsavannah.backend.mapper.LeaseMapper;
 import io.siliconsavannah.backend.model.Lease;
 import io.siliconsavannah.backend.model.Lease;
 import io.siliconsavannah.backend.repo.LeaseRepo;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

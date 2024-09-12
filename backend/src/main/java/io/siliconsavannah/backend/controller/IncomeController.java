@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/management/income")
+@RequestMapping("/api/income")
 public class IncomeController {
     @Autowired
     public IncomeService incomeService;

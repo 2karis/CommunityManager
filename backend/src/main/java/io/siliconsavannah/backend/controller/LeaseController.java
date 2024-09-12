@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/management/lease")
+@RequestMapping("/api/lease")
 public class LeaseController {
     @Autowired
     public LeaseService leaseService;

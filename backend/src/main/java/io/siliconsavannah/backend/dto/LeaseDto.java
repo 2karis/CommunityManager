@@ -1,5 +1,6 @@
 package io.siliconsavannah.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.siliconsavannah.backend.model.Document;
 import io.siliconsavannah.backend.model.Income;
 import io.siliconsavannah.backend.model.Property;
@@ -14,7 +15,9 @@ import java.util.HashSet;
 
 public record LeaseDto(
     int id,
+    @JsonFormat(pattern="yyyy-MM-dd")
     SimpleDateFormat termFrom,
+    @JsonFormat(pattern="yyyy-MM-dd")
     SimpleDateFormat  termTo,
     int rent,
     int deposit,

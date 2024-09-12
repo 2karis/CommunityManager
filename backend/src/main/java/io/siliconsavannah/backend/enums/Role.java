@@ -1,7 +1,8 @@
 package io.siliconsavannah.backend.enums;
 
 public enum Role {
-    USER,
+    COMMUNITY,
     MANAGER,
-    ADMIN
+    SUPER_USER,
+    ADMIN_USER
 }

@@ -68,7 +68,7 @@ public class UserService {
                 .lastName(request.lastName())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
-                .role(Role.USER)
+                .role(Role.COMMUNITY)
                 .build();
 
         User newUser = userRepo.save(user);

@@ -98,6 +98,99 @@
           }
         }
       }
+    },
+    "interceptor": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/interceptor",
+      "sourceRoot": "projects/interceptor/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/interceptor",
+            "index": "projects/interceptor/src/index.html",
+            "browser": "projects/interceptor/src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "projects/interceptor/tsconfig.app.json",
+            "assets": [
+              "projects/interceptor/src/favicon.ico",
+              "projects/interceptor/src/assets"
+            ],
+            "styles": [
+              "projects/interceptor/src/styles.css"
+            ],
+            "scripts": [],
+            "server": "projects/interceptor/src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "projects/interceptor/server.ts"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "interceptor:build:production"
+            },
+            "development": {
+              "buildTarget": "interceptor:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "interceptor:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "projects/interceptor/tsconfig.spec.json",
+            "assets": [
+              "projects/interceptor/src/favicon.ico",
+              "projects/interceptor/src/assets"
+            ],
+            "styles": [
+              "projects/interceptor/src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
     }
   },
   "cli": {
