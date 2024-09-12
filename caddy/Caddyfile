@@ -1,13 +1,4 @@
-# 161.35.251.91:80 {
-# 	handle /api/* {
-# 		reverse_proxy backend:8080
-# 	}
-# 	handle /* {
-# 		reverse_proxy  web:4200
-# 	}
-# }
-
-localhost:80 {
+161.35.251.91:80 {
 	handle /api/* {
 		reverse_proxy backend:8080
 	}
@@ -15,3 +6,12 @@ localhost:80 {
 		reverse_proxy  web:4200
 	}
 }
+
+# localhost:80 {
+# 	handle /api/* {
+# 		reverse_proxy backend:8080
+# 	}
+# 	handle /* {
+# 		reverse_proxy  web:4200
+# 	}
+# }
