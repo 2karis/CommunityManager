@@ -15,12 +15,12 @@ services:
     build: ./backend
     networks:
       - network
-  # web:
-  #   restart: on-failure
-  #   build: 
-  #     context: web
-  #   networks:
-  #     - network
+  web:
+    restart: on-failure
+    build: 
+      context: web
+    networks:
+      - network
   caddy:
     image: caddy:2.7.6-alpine
     restart: unless-stopped
