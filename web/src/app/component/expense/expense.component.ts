@@ -33,7 +33,7 @@ export class ExpenseComponent {
         console.log(this.expenses);
       },
       (error :HttpErrorResponse)=>{
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }
@@ -45,7 +45,7 @@ export class ExpenseComponent {
   public onCreateExpense(createForm : NgForm): void{
     this.expenseService.createExpense(createForm.value).subscribe({
       error: (e) => {
-        alert(e);
+        console.log(e);
       },
       complete: () => {
         this.getExpenses();
@@ -58,7 +58,7 @@ export class ExpenseComponent {
   public onUpdateExpense(updateForm : NgForm): void{
     this.expenseService.updateExpense(<Expense>updateForm.value).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getExpenses();
@@ -71,7 +71,7 @@ export class ExpenseComponent {
   public onDeleteExpense(id:number): void{
     this.expenseService.deleteExpense(id).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getExpenses();

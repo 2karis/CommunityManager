@@ -33,7 +33,7 @@ export class TaskComponent {
         console.log(this.tasks);
       },
       (error :HttpErrorResponse)=>{
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }
@@ -45,7 +45,7 @@ export class TaskComponent {
   public onCreateTask(createForm : NgForm): void{
     this.taskService.createTask(createForm.value).subscribe({
       error: (e) => {
-        alert(e);
+        console.log(e);
       },
       complete: () => {
         this.getTasks();
@@ -58,7 +58,7 @@ export class TaskComponent {
   public onUpdateTask(updateForm : NgForm): void{
     this.taskService.updateTask(<Task>updateForm.value).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getTasks();
@@ -71,7 +71,7 @@ export class TaskComponent {
   public onDeleteTask(id:number): void{
     this.taskService.deleteTask(id).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getTasks();

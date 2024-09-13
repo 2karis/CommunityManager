@@ -30,7 +30,7 @@ export class AccountComponent {
         console.log(this.user);
       },
       (error :HttpErrorResponse)=>{
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }

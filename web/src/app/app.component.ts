@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { StorageService } from './service/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -13,4 +14,11 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 })
 export class AppComponent {
   title = 'web';
+  isLoggedIn!:boolean;
+  ngOnInit(){
+    this.isLoggedIn = StorageService.isUserLoggedIn()
+  }
+  updateLogin():boolean{
+    return StorageService.isUserLoggedIn()
+  }
 }

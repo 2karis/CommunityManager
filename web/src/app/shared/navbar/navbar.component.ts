@@ -11,15 +11,20 @@ import { StorageService } from '../../service/storage.service';
 })
 export class NavbarComponent {
     //isAdmin : boolean;
-    @Input('isAuthenticated') isLoggedIn!: boolean;
+    @Input("isSignedIn") isLoggedIn!: boolean;
+    userId !: number;
     constructor(private router : Router){}
     ngOnInit(){
   
-      // this.isAdmin = StorageService.isAdminUserLoggedIn();
+      this.isLoggedIn = StorageService.isUserLoggedIn();
+      if(this.isLoggedIn){
+        this.userId = 1;
+      }
       
     }
   logout(){
     StorageService.logout();
-    this.router.navigate(["/login"]);
+    this.isLoggedIn = StorageService.isUserLoggedIn();
+    this.router.navigate(["/home"]);
   }
 }

@@ -33,7 +33,7 @@ export class LeaseComponent {
         console.log(this.leases);
       },
       (error :HttpErrorResponse)=>{
-        alert(error);
+        console.log(error);
       }
     )
   }
@@ -45,7 +45,7 @@ export class LeaseComponent {
   public onCreateLease(createForm : NgForm): void{
     this.leaseService.createLease(createForm.value).subscribe({
       error: (e) => {
-        alert(e);
+        console.log(e);
         console.log(e);
       },
       complete: () => {
@@ -59,7 +59,7 @@ export class LeaseComponent {
   public onUpdateLease(updateForm : NgForm): void{
     this.leaseService.updateLease(<Lease>updateForm.value).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getLeases();
@@ -72,7 +72,7 @@ export class LeaseComponent {
   public onDeleteLease(id:number): void{
     this.leaseService.deleteLease(id).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
         console.log(error);
       },
       complete: () => {

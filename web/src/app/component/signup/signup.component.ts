@@ -38,8 +38,8 @@ export class SignupComponent {
       return{};
     }
   }
-  signUp():void{
-    this.authService.signUp(this.signUpForm.value).subscribe({
+  register():void{
+    this.authService.register(this.signUpForm.value).subscribe({
        next(response){ 
           //do something with response?
        },

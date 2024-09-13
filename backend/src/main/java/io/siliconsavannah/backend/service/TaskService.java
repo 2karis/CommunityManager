@@ -23,7 +23,6 @@ public class TaskService {
     @Autowired
     private TaskRepo taskRepo;
 
-
     public TaskDto createTask(TaskDto task){
         return taskMapper.entityToDto(taskRepo.save(taskMapper.dtoToEntity(task)));
     }
@@ -31,11 +30,10 @@ public class TaskService {
     public List<TaskDto> readAllTasks(){
         return taskRepo.findAll().stream().map(taskMapper::entityToDto).collect(Collectors.toList());
     }
-
+    
     public TaskDto updateTask(TaskDto dto) throws Exception {
         Task entity = taskRepo.findTaskById(dto.id())
                 .orElseThrow(() -> new Exception("task with id "+ dto.id() +" not found"));
-
         if (dto.title()!= null) entity.setTitle(dto.title());
         if (dto.type()!= null) entity.setType(dto.type());
         if (dto.description()!= null) entity.setDescription(dto.description());

@@ -14,7 +14,7 @@ export class AuthService {
   
   constructor( private http: HttpClient,private router :Router) { }
 
-  public signUp(signUpRequest: any):Observable<any>{
+  public register(signUpRequest: any):Observable<any>{
     return this.http.post<any>(`${this.appServerUrl}/auth/signup`,signUpRequest);
   }
 
@@ -24,9 +24,9 @@ export class AuthService {
       if(StorageService.isAdminUserLoggedIn()){
         this.router.navigate(['/admin/dashboard']);
       }else if(StorageService.isUserLoggedIn()){
-        this.router.navigate(['/customer/dashboard']);
+        this.router.navigate(['/dashboard']);
       }else{
-        alert("BAD Credentials");
+        console.log("BAD Credentials");
       }
     }));
   }

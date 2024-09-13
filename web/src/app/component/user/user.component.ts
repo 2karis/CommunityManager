@@ -33,7 +33,7 @@ export class UserComponent {
         console.log(this.users);
       },
       (error :HttpErrorResponse)=>{
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }
@@ -45,7 +45,7 @@ export class UserComponent {
   public onCreateUser(createForm : NgForm): void{
     this.userService.createUser(createForm.value).subscribe({
       error: (e) => {
-        alert(e);
+        console.log(e);
       },
       complete: () => {
         this.getUsers();
@@ -58,7 +58,7 @@ export class UserComponent {
   public onUpdateUser(updateForm : NgForm): void{
     this.userService.updateUser(<User>updateForm.value).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getUsers();
@@ -71,7 +71,7 @@ export class UserComponent {
   public onDeleteUser(id:number): void{
     this.userService.deleteUser(id).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getUsers();

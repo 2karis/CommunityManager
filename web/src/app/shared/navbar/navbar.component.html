@@ -1,21 +1,47 @@
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+<nav class="py-2 bg-body-tertiary border-bottom navbar-dark sticky-top bg-dark ">
+<!-- <nav class="py-2 navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"> -->
+  <div class="container d-flex flex-wrap text-bg-dark">
+    <ul class="nav me-auto">
+      <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
+      @if(isLoggedIn){
+        <li class="nav-item"><a href="/dashboard" class="nav-link link-body-emphasis px-2">Dashboard</a></li>
+      }
+      <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">FAQs</a></li>
+    </ul>
+    @if(isLoggedIn){
+      <div class="dropdown text-end">
+        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+        </a>
+        <ul class="dropdown-menu text-small">
+          <li><a class="dropdown-item" routerLink="/account/{{userId}}">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" (click)="logout()">Sign out</a></li>
+        </ul>
+      </div>
+    }@else{
+      <ul class="nav">
+        <li class="nav-item"><a routerLink="/login" class="nav-link link-body-emphasis px-2">Login</a></li>
+        <li class="nav-item"><a routerLink="/register" class="nav-link link-body-emphasis px-2">Sign up</a></li>
+      </ul>
+    }
+  </div>
+</nav>
+  <!-- <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Silicon Savannah</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
       data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <!--
-    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-  -->
+
     <div class="navbar-nav">
       <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="/signin">Sign in</a>
-      </div>
-      <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="/signup">Sign up</a>
-      </div>
-      <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" (click)="logout()">Sign out</a>
+        @if(isLoggedIn){
+          <a class="nav-link px-3" (click)="logout()">Logout</a>
+        }@else{
+          <a class="nav-link px-3" routerLink="/login">Login</a>
+        }
       </div>
     </div>
-  </header>
+  </header> -->
+

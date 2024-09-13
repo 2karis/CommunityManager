@@ -35,7 +35,7 @@ export class PropertyComponent {
         console.log(this.properties);
       },
       (error :HttpErrorResponse)=>{
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }
@@ -47,7 +47,7 @@ export class PropertyComponent {
   public onCreateProperty(createForm : NgForm): void{
     this.propertyService.createProperty(createForm.value).subscribe({
       error: (e) => {
-        alert(e);
+        console.log(e);
         console.log(e);
       },
       complete: () => {
@@ -61,7 +61,7 @@ export class PropertyComponent {
   public onUpdateProperty(updateForm : NgForm): void{
     this.propertyService.updateProperty(<Property>updateForm.value).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getProperties();
@@ -74,7 +74,7 @@ export class PropertyComponent {
   public onDeleteProperty(id:number): void{
     this.propertyService.deleteProperty(id).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getProperties();

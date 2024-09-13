@@ -33,7 +33,7 @@ export class IncomeComponent {
         console.log(this.incomes);
       },
       (error :HttpErrorResponse)=>{
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }
@@ -45,7 +45,7 @@ export class IncomeComponent {
   public onCreateIncome(createForm : NgForm): void{
     this.incomeService.createIncome(createForm.value).subscribe({
       error: (e) => {
-        alert(e);
+        console.log(e);
       },
       complete: () => {
         this.getIncomes();
@@ -58,7 +58,7 @@ export class IncomeComponent {
   public onUpdateIncome(updateForm : NgForm): void{
     this.incomeService.updateIncome(<Income>updateForm.value).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getIncomes();
@@ -71,7 +71,7 @@ export class IncomeComponent {
   public onDeleteIncome(id:number): void{
     this.incomeService.deleteIncome(id).subscribe({
       error: (error) => {
-        alert(error);
+        console.log(error);
       },
       complete: () => {
         this.getIncomes();
