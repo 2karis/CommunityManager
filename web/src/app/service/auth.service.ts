@@ -22,15 +22,25 @@ export class AuthService {
     return this.http.post(`${this.appServerUrl}/auth/login`,loginRequest)
     .pipe(finalize(()=>{
       if(StorageService.isAdminUserLoggedIn()){
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/admin/home']);
       }else if(StorageService.isUserLoggedIn()){
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/home']);
       }else{
         console.log("BAD Credentials");
       }
     }));
   }
   logout(token: string){
-    return this.http.get(`${this.appServerUrl}/api/auth/logout?token=${token}`);
+    this.http.get(`${this.appServerUrl}/api/auth/logout?token=${token}`);
+    StorageService.logout();
+    this.router.navigate(['/login']);
+  }
+  isUserAuthenticated():boolean{
+    return StorageService.isUserLoggedIn();
+  }
+  verifyAuthentication(){
+    if(StorageService.isUserLoggedIn()){
+      this.router.navigate(['/home']);
+    }
   }
 }

@@ -20,11 +20,10 @@
 <!-- <nav class="py-2 navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"> -->
   <div class="container d-flex flex-wrap text-bg-dark">
     <ul class="nav me-auto">
-      <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
-      @if(isLoggedIn){
+      <li class="nav-item"><a href="/home" class="nav-link link-body-emphasis px-2 " aria-current="page">Home</a></li>
+      <!-- @if(isLoggedIn){
         <li class="nav-item"><a href="/home" class="nav-link link-body-emphasis px-2">Dashboard</a></li>
-      }
-      <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">FAQs</a></li>
+      } -->
     </ul>
     @if(isLoggedIn){
       <div class="dropdown text-end">
@@ -32,7 +31,9 @@
           <img src="https://picsum.photos/32/32" alt="mdo" width="32" height="32" class="rounded-circle">
         </a>
         <ul class="dropdown-menu text-small">
+          <li><a class="dropdown-item" routerLink="/home">Dashboard</a></li>
           <li><a class="dropdown-item" routerLink="/account/{{userId}}">Profile</a></li>
+
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" (click)="logout()">Sign out</a></li>
         </ul>
@@ -40,7 +41,7 @@
     }@else{
       <ul class="nav">
         <li class="nav-item"><a routerLink="/login" class="nav-link link-body-emphasis px-2">Login</a></li>
-        <li class="nav-item"><a routerLink="/register" class="nav-link link-body-emphasis px-2">Sign up</a></li>
+        <!-- <li class="nav-item"><a routerLink="/register" class="nav-link link-body-emphasis px-2">Sign up</a></li> -->
       </ul>
     }
   </div>

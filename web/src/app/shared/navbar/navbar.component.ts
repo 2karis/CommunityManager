@@ -25,6 +25,6 @@ export class NavbarComponent {
   logout(){
     StorageService.logout();
     this.isLoggedIn = StorageService.isUserLoggedIn();
-    this.router.navigate(["/home"]);
+    this.router.navigate(["/login"]);
   }
 }
