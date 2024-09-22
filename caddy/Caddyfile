@@ -6,11 +6,11 @@
 		reverse_proxy  web:4200
 	}
 }
-http://161.35.251.91:8080 {
-	handle /* {
-		reverse_proxy  adminer:8080
-	}
-}
+# http://161.35.251.91:8080 {
+# 	handle /* {
+# 		reverse_proxy  adminer:8080
+# 	}
+# }
 
 # localhost:80 {
 # 	handle /api/* {
@@ -19,6 +19,7 @@ http://161.35.251.91:8080 {
 # 	handle /* {
 # 		reverse_proxy  web:4200
 # 	}
+	
 	
 # }
 # localhost:8080 {
