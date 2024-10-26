@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 @Repository
 
-public interface TaskRepo extends JpaRepository<Task, Integer> {
+public interface TaskRepository extends JpaRepository<Task, Integer> {
     void deleteTaskById(int id);
 
     Optional<Task> findTaskById(int id);

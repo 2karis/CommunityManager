@@ -6,7 +6,7 @@ import io.siliconsavannah.backend.dto.UserDto;
 import io.siliconsavannah.backend.enums.Role;
 import io.siliconsavannah.backend.mapper.UserMapper;
 import io.siliconsavannah.backend.model.User;
-import io.siliconsavannah.backend.repo.UserRepo;
+import io.siliconsavannah.backend.repo.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,21 +26,21 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
 
     public UserDto createUser(UserDto user){
-        return userMapper.entityToDto(userRepo.save(userMapper.dtoToEntity(user)));
+        return userMapper.entityToDto(userRepository.save(userMapper.dtoToEntity(user)));
     }
 
     public List<UserDto> readAllUsers(){
-        return userRepo.findAll().stream().map(userMapper::entityToDto).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(userMapper::entityToDto).collect(Collectors.toList());
     }
 
     public UserDto updateUser(UserDto dto) throws Exception {
-        User entity = userRepo.findUserById(dto.id())
+        User entity = userRepository.findUserById(dto.id())
                 .orElseThrow(() -> new Exception("user with id "+ dto.id() +" not found"));
 
         if (dto.firstName()!= null) entity.setFirstName(dto.firstName());
@@ -50,14 +50,14 @@ public class UserService {
         if (dto.imageUrl()!= null) entity.setImageUrl(dto.imageUrl());
         if (dto.tasks()!= null) entity.setTasks(dto.tasks());
 
-        return userMapper.entityToDto(userRepo.save(entity));
+        return userMapper.entityToDto(userRepository.save(entity));
     }
     public void deleteUser(int id){
-        userRepo.deleteUserById(id);
+        userRepository.deleteUserById(id);
     }
 
     public UserDto findUserById(int id) throws Exception {
-        return userMapper.entityToDto(userRepo.findUserById(id)
+        return userMapper.entityToDto(userRepository.findUserById(id)
                 .orElseThrow(() -> new Exception("user with id "+ id +" not found")));
     }
 
@@ -71,7 +71,7 @@ public class UserService {
                 .role(Role.COMMUNITY)
                 .build();
 
-        User newUser = userRepo.save(user);
+        User newUser = userRepository.save(user);
         List<String> roles = newUser.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).toList();
         return  UserDto.builder()
@@ -84,7 +84,7 @@ public class UserService {
             User user = User.builder()
                     .password(passwordEncoder.encode(passwordDto.password()))
                     .build();
-            User newUser = userRepo.save(user);
+            User newUser = userRepository.save(user);
             return true;
         }catch (Exception e){
             log.error(e.getMessage());
@@ -93,14 +93,14 @@ public class UserService {
     }
 
     public boolean hasUserWithEmail(String email){
-        return userRepo.findFirstByEmail(email).isPresent();
+        return userRepository.findFirstByEmail(email).isPresent();
     }
 
     public UserDetailsService userDetailsService(){
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                return userRepo.findFirstByEmail(email)
+                return userRepository.findFirstByEmail(email)
                         .orElseThrow(()-> new UsernameNotFoundException("User not found!"));
             }
         };

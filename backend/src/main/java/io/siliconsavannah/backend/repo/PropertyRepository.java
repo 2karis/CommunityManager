@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 @Repository
 
-public interface PropertyRepo extends JpaRepository<Property, Integer> {
+public interface PropertyRepository extends JpaRepository<Property, Integer> {
     Optional<Property> findPropertyById(int id);
 
     void deletePropertyById(int id);

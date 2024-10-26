@@ -1,11 +1,9 @@
 package io.siliconsavannah.backend.service;
 
 import io.siliconsavannah.backend.dto.TaskDto;
-import io.siliconsavannah.backend.dto.TaskDto;
-import io.siliconsavannah.backend.dto.TaskDto;
 import io.siliconsavannah.backend.mapper.TaskMapper;
 import io.siliconsavannah.backend.model.Task;
-import io.siliconsavannah.backend.repo.TaskRepo;
+import io.siliconsavannah.backend.repo.TaskRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +19,18 @@ public class TaskService {
     @Autowired
     private TaskMapper taskMapper;
     @Autowired
-    private TaskRepo taskRepo;
+    private TaskRepository taskRepository;
 
     public TaskDto createTask(TaskDto task){
-        return taskMapper.entityToDto(taskRepo.save(taskMapper.dtoToEntity(task)));
+        return taskMapper.entityToDto(taskRepository.save(taskMapper.dtoToEntity(task)));
     }
 
     public List<TaskDto> readAllTasks(){
-        return taskRepo.findAll().stream().map(taskMapper::entityToDto).collect(Collectors.toList());
+        return taskRepository.findAll().stream().map(taskMapper::entityToDto).collect(Collectors.toList());
     }
     
     public TaskDto updateTask(TaskDto dto) throws Exception {
-        Task entity = taskRepo.findTaskById(dto.id())
+        Task entity = taskRepository.findTaskById(dto.id())
                 .orElseThrow(() -> new Exception("task with id "+ dto.id() +" not found"));
         if (dto.title()!= null) entity.setTitle(dto.title());
         if (dto.type()!= null) entity.setType(dto.type());
@@ -40,14 +38,14 @@ public class TaskService {
         if (dto.image()!= null) entity.setImage(dto.image());
         if (dto.status()!= null) entity.setStatus(dto.status());
 
-        return taskMapper.entityToDto(taskRepo.save(entity));
+        return taskMapper.entityToDto(taskRepository.save(entity));
     }
     public void deleteTask(int id){
-        taskRepo.deleteTaskById(id);
+        taskRepository.deleteTaskById(id);
     }
 
     public TaskDto findTaskById(int id) throws Exception {
-        return taskMapper.entityToDto(taskRepo.findTaskById(id)
+        return taskMapper.entityToDto(taskRepository.findTaskById(id)
                 .orElseThrow(() -> new Exception("task with id "+ id +" not found")));
     }
 }
